@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Currency;
 
 public class SecurityAccount extends Account{
     private double stockBalance;
@@ -11,6 +12,16 @@ public class SecurityAccount extends Account{
         setLoss(0);
         setProfit(0);
         setStockBalance(0);
+    }
+
+    @Override
+    public boolean withdraw(Currency currency, double amount) {
+        return false;
+    }
+
+    @Override
+    public void deposit(Currency currency, double amount) {
+
     }
 
     public double getStockBalance() {

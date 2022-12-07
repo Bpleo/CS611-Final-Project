@@ -1,3 +1,4 @@
+import java.util.Currency;
 import java.util.HashMap;
 
 public class SavingAccount extends Account{
@@ -13,16 +14,23 @@ public class SavingAccount extends Account{
         deposit = new HashMap<>();
     }
 
-    public double getDeposit(Currency currency){
-        return deposit.get(currency);
+    @Override
+    public boolean withdraw(Currency currency, double amount) {
+        return false;
     }
 
-    public void setDeposit(Currency currency, double amount){
+    @Override
+    public void deposit(Currency currency, double amount) {
         if (deposit.containsKey(currency))
             deposit.put(currency,deposit.get(currency)+amount);
         else
             deposit.put(currency,amount);
     }
+
+    public double getDeposit(Currency currency){
+        return deposit.get(currency);
+    }
+
 
     public double getInterestLoan() {
         return interestLoan;

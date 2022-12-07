@@ -8,27 +8,29 @@ public class CheckingAccount extends Account{
         deposit = new HashMap<>();
     }
 
-    public double getDeposit(Currency currency){
-        return deposit.get(currency);
-    }
-
-    public void addCurrency(Currency currency, double amount){
+    @Override
+    public void deposit(Currency currency, double amount) {
         if (deposit.containsKey(currency))
             deposit.put(currency,deposit.get(currency)+amount);
         else
             deposit.put(currency,amount);
     }
 
-    //if returns -1, then it means withdraw doesn't succeed
-    public double fastWithDraw(Currency currency, double amount){
+    @Override
+    public boolean withdraw(Currency currency, double amount) {
         if (deposit.containsKey(currency))
             if (deposit.get(currency) < amount)
-                return -1;
+                return false;
             else {
                 deposit.put(currency,deposit.get(currency)-amount);
-                return amount;
+                return true;
             }
         else
-            return -1;
+            return false;
     }
+
+    public double getDeposit(Currency currency){
+        return deposit.get(currency);
+    }
+
 }

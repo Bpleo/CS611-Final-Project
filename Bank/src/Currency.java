@@ -1,5 +1,6 @@
 public enum Currency {
     DOLLAR,
     POUND,
-    RUPEE
+    RUPEE,
+    YUAN
 }

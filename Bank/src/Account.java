@@ -1,3 +1,5 @@
+import java.util.Currency;
+
 public abstract class Account {
 
     private AccountType type;
@@ -13,6 +15,9 @@ public abstract class Account {
         this.accountId = accountId;
         this.customerId = customerId;
     }
+
+    public abstract boolean withdraw(Currency currency, double amount);
+    public abstract void deposit(Currency currency, double amount);
 
     public AccountType getType() {
         return type;
