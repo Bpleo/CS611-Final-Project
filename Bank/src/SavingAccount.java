@@ -1,9 +1,12 @@
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SavingAccount extends Account{
     private double loanAmount;
     private double interestSaving;
+    //deposit length
+    //deposit date
     private double interestLoan;
     private HashMap<Currency, Double> deposit;
     public SavingAccount(AccountType type, double balance, int accountHolderId, Customer customerId) {
@@ -12,6 +15,11 @@ public class SavingAccount extends Account{
         setInterestSaving(0);
         setLoanAmount(0);
         deposit = new HashMap<>();
+    }
+
+    //sends in the date of the withdrawal to see if the customer can make the transaction.
+    public boolean withdraw(Date date, Currency currency, double amount) {
+        return false;
     }
 
     @Override
