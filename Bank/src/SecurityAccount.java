@@ -7,20 +7,20 @@ public class SecurityAccount extends Account{
     private double loss;
     private ArrayList<Stock> stockListOwned;
 
-    public SecurityAccount(AccountType type, double balance,  int accountId, Customer customerId) {
-        super(type, balance, accountId, customerId);
+    public SecurityAccount(int accountId, Customer customerId) {
+        super(AccountType.SECURITY, accountId, customerId);
         setLoss(0);
         setProfit(0);
         setStockBalance(0);
     }
 
     @Override
-    public boolean withdraw(Currency currency, double amount) {
+    public boolean withdraw(CurrencyType currency, double amount) {
         return false;
     }
 
     @Override
-    public void deposit(Currency currency, double amount) {
+    public void deposit(CurrencyType currency, double amount) {
 
     }
 

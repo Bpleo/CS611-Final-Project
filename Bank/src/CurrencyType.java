@@ -1,4 +1,4 @@
-public enum Currency {
+public enum CurrencyType {
     DOLLAR,
     POUND,
     RUPEE,

@@ -1,51 +1,53 @@
+import java.time.LocalDate;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 
 public class SavingAccount extends Account{
-    private double loanAmount;
     private double interestSaving;
-    //deposit length
-    //deposit date
-    private double interestLoan;
-    private HashMap<Currency, Double> deposit;
-    public SavingAccount(AccountType type, double balance, int accountHolderId, Customer customerId) {
-        super(AccountType.SAVING, balance, accountHolderId, customerId);
-        setInterestLoan(0);
-        setInterestSaving(0);
-        setLoanAmount(0);
-        deposit = new HashMap<>();
+    private LocalDate depositDate;
+    private LocalDate withdrawDate;
+    private HashMap<CurrencyType, Double> balance;
+    //when created, must deposit something in it.
+    public SavingAccount(int accountHolderId, Customer customerId, int depositPeriod, LocalDate depositDate, double interestSaving) {
+        super(AccountType.SAVING, accountHolderId, customerId);
+        setInterestSaving(interestSaving);
+        balance = new HashMap<>();
+        this.depositDate = depositDate;
+        withdrawDate = depositDate.plusDays(depositPeriod);
     }
 
     //sends in the date of the withdrawal to see if the customer can make the transaction.
-    public boolean withdraw(Date date, Currency currency, double amount) {
-        return false;
-    }
-
-    @Override
-    public boolean withdraw(Currency currency, double amount) {
-        return false;
-    }
-
-    @Override
-    public void deposit(Currency currency, double amount) {
-        if (deposit.containsKey(currency))
-            deposit.put(currency,deposit.get(currency)+amount);
+    public boolean withdraw(LocalDate date, CurrencyType currency, double amount) {
+        if (date.compareTo(withdrawDate) < 0)
+            return false;
         else
-            deposit.put(currency,amount);
+            return withdraw(currency, amount);
     }
 
-    public double getDeposit(Currency currency){
-        return deposit.get(currency);
+    @Override
+    public boolean withdraw(CurrencyType currency, double amount) {
+        if (balance.containsKey(currency))
+            if (balance.get(currency) < amount)
+                return false;
+            else {
+                balance.put(currency,balance.get(currency)-amount);
+                return true;
+            }
+        else
+            return false;
     }
 
-
-    public double getInterestLoan() {
-        return interestLoan;
+    @Override
+    public void deposit(CurrencyType currency, double amount) {
+        if (balance.containsKey(currency))
+            balance.put(currency,balance.get(currency)+amount);
+        else
+            balance.put(currency,amount);
     }
 
-    public void setInterestLoan(double interestLoan) {
-        this.interestLoan = interestLoan;
+    public double getBalance(CurrencyType currency){
+        return balance.get(currency);
     }
 
     public double getInterestSaving() {
@@ -56,22 +58,12 @@ public class SavingAccount extends Account{
         this.interestSaving = interestSaving;
     }
 
-    public double getLoanAmount() {
-        return loanAmount;
+    public LocalDate getDepositDate() {
+        return depositDate;
     }
 
-    public void setLoanAmount(double loanAmount) {
-        this.loanAmount = loanAmount;
-    }
-
-    //todo
-    public boolean checkLoanEligibility(){
-        return false;
-    }
-
-    //todo
-    public double requestLoan(double amount){
-        return 0;
+    public LocalDate getWithdrawDate() {
+        return withdrawDate;
     }
 
     //todo
@@ -79,7 +71,5 @@ public class SavingAccount extends Account{
         return false;
     }
 
-    public void transferAmount(int accountId, double amount){
 
-    }
 }

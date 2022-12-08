@@ -2,14 +2,14 @@ import java.util.Currency;
 import java.util.HashMap;
 
 public class CheckingAccount extends Account{
-    private HashMap<Currency, Double> deposit;
-    public CheckingAccount(AccountType type, double balance, int accountHolderId, Customer customerId) {
-        super(AccountType.CHECKING, balance, accountHolderId,  customerId);
+    private HashMap<CurrencyType, Double> deposit;
+    public CheckingAccount(int accountHolderId, Customer customerId) {
+        super(AccountType.CHECKING, accountHolderId,  customerId);
         deposit = new HashMap<>();
     }
 
     @Override
-    public void deposit(Currency currency, double amount) {
+    public void deposit(CurrencyType currency, double amount) {
         if (deposit.containsKey(currency))
             deposit.put(currency,deposit.get(currency)+amount);
         else
@@ -17,7 +17,7 @@ public class CheckingAccount extends Account{
     }
 
     @Override
-    public boolean withdraw(Currency currency, double amount) {
+    public boolean withdraw(CurrencyType currency, double amount) {
         if (deposit.containsKey(currency))
             if (deposit.get(currency) < amount)
                 return false;
