@@ -6,8 +6,8 @@ public class SavingAccount extends Account{
     private double interestSaving;
     private double interestLoan;
     private HashMap<Currency, Double> deposit;
-    public SavingAccount(AccountType type, double balance, int accountHolderId, int accountId, Customer customerId) {
-        super(AccountType.SAVING, balance, accountHolderId, accountId, customerId);
+    public SavingAccount(AccountType type, double balance, int accountHolderId, Customer customerId) {
+        super(AccountType.SAVING, balance, accountHolderId, customerId);
         setInterestLoan(0);
         setInterestSaving(0);
         setLoanAmount(0);

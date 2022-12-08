@@ -7,8 +7,8 @@ public class SecurityAccount extends Account{
     private double loss;
     private ArrayList<Stock> stockListOwned;
 
-    public SecurityAccount(AccountType type, double balance, int accountHolderId, int accountId, Customer customerId) {
-        super(type, balance, accountHolderId, accountId, customerId);
+    public SecurityAccount(AccountType type, double balance,  int accountId, Customer customerId) {
+        super(type, balance, accountId, customerId);
         setLoss(0);
         setProfit(0);
         setStockBalance(0);
