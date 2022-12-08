@@ -1,20 +1,19 @@
 import java.time.LocalDate;
-import java.util.Currency;
-import java.util.Date;
 import java.util.HashMap;
 
 public class SavingAccount extends Account{
     private double interestSaving;
     private LocalDate depositDate;
     private LocalDate withdrawDate;
-    private HashMap<CurrencyType, Double> balance;
+    private HashMap<CurrencyType, Double> balance;// see if there is a way to make sure each type of currency have its own withdrawal date
     //when created, must deposit something in it.
-    public SavingAccount(int accountHolderId, Customer customerId, int depositPeriod, LocalDate depositDate, double interestSaving) {
+    public SavingAccount(int accountHolderId, Customer customerId, int depositPeriod, LocalDate depositDate, double interestSaving, CurrencyType currency, double amount) {
         super(AccountType.SAVING, accountHolderId, customerId);
         setInterestSaving(interestSaving);
         balance = new HashMap<>();
         this.depositDate = depositDate;
         withdrawDate = depositDate.plusDays(depositPeriod);
+        deposit(currency, amount);
     }
 
     //sends in the date of the withdrawal to see if the customer can make the transaction.
