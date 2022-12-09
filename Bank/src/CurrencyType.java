@@ -1,6 +1,6 @@
 public enum CurrencyType {
-    DOLLAR,
-    POUND,
-    RUPEE,
-    YUAN
+    USD,
+    INR, //Rupee
+    GBP, //Pound
+    CNY //Yuan
 }

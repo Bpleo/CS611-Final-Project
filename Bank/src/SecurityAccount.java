@@ -14,12 +14,10 @@ public class SecurityAccount extends Account{
         setStockBalance(0);
     }
 
-    @Override
     public boolean withdraw(CurrencyType currency, double amount) {
         return false;
     }
 
-    @Override
     public void deposit(CurrencyType currency, double amount) {
 
     }
