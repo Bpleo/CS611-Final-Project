@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SavingAccount extends Account{
-    private HashMap<CurrencyType,  SavingDeposit> balance;// see if there is a way to make sure each type of currency have its own withdrawal date
-    //when created, must deposit something in it.
     private boolean stockEligibility = false;
     private double interestSaving;
+    private HashMap<CurrencyType,  SavingDeposit> balance;
 
+    //when created, must deposit something in it.
     public SavingAccount(int accountHolderId, Customer customerId, double interestSaving, CurrencyType currency, double amount) {
         super(AccountType.SAVING, accountHolderId, customerId);
         balance = new HashMap<>();
