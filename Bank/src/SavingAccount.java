@@ -1,12 +1,10 @@
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SavingAccount extends Account{
     private boolean stockEligibility = false;
     private double interestSaving;
-    private HashMap<CurrencyType,  SavingDeposit> balance;
+    private HashMap<CurrencyType, SavingDeposit> balance;
 
     //when created, must deposit something in it.
     public SavingAccount(int accountHolderId, Customer customerId, double interestSaving, CurrencyType currency, double amount) {
