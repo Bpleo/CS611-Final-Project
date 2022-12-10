@@ -1,6 +1,10 @@
 import java.util.*;
 
 public class Stock {
+    /*
+    Class for representing the stocks and their values in the stock market.
+    Methods for get-set and simulating stock price.
+     */
     private int stockId;
     private String stockName;
     private double stockPrice;
@@ -57,6 +61,9 @@ public class Stock {
             stockPrice += stockPrice*swing;
         } else{
             stockPrice -= stockPrice*swing;
+            // If decrease is reduces stock price below 0, set it to 1
+            if (stockPrice <= 0)
+                stockPrice = 1;
         }
 
     }
