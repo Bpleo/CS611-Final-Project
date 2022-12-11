@@ -12,13 +12,31 @@ public class SecurityAccount extends Account{
         setLoss(0);
         setProfit(0);
         setStockBalance(0);
+        stockListOwned = new ArrayList<Stock>();
     }
+    public boolean withdraw(CurrencyType currencyType, double amount) {
+        /*
+        Method used to withdraw money from stockBalance
+        Checks for sufficient balance
+         */
 
-    public boolean withdraw(CurrencyType currency, double amount) {
+        if (stockBalance > amount){
+            stockBalance -= amount;
+            return true;
+        }
+
+
         return false;
     }
 
     public void deposit(CurrencyType currency, double amount) {
+        /*
+        Method used to deposit money to stockBalance
+         */
+
+        if (amount > 0){
+            stockBalance += amount;
+        }
 
     }
 
@@ -44,6 +62,24 @@ public class SecurityAccount extends Account{
 
     public void setLoss(double loss) {
         this.loss = loss;
+    }
+
+    public double getStockHoldingValue() {
+        /*
+        This method calculates the total value of stocks held in portfolio.
+        This is done by generating a random swing percentage.
+        Then it is randomly decided if the change is an increase or decrease in price.
+         */
+        double holding=0;
+
+        // Loop through the list of stocks owned
+        for (Stock stock: stockListOwned){
+            // Calculate as price of stock times the quantity of the stock
+            holding += stock.getStockPrice() * stock.getStockQuantity();
+        }
+
+        return holding;
+
     }
 
     //todo

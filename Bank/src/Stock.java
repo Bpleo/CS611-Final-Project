@@ -8,11 +8,14 @@ public class Stock {
     private int stockId;
     private String stockName;
     private double stockPrice;
+    private double stockBuyPrice;
+    private int stockQuantity;
 
     public Stock(int stockId, String stockName, double stockPrice){
         setStockId(stockId);
         setStockName(stockName);
         setStockPrice(stockPrice);
+        setStockBuyPrice(stockPrice);
     }
 
     public double getStockPrice() {
@@ -21,6 +24,14 @@ public class Stock {
 
     public void setStockPrice(double stockPrice) {
         this.stockPrice = stockPrice;
+    }
+
+    public double getStockBuyPrice() {
+        return stockBuyPrice;
+    }
+
+    public void setStockBuyPrice(double stockBuyPrice) {
+        this.stockBuyPrice = stockBuyPrice;
     }
 
     public int getStockId() {
@@ -37,6 +48,14 @@ public class Stock {
 
     public void setStockName(String stockName) {
         this.stockName = stockName;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public void simulateStockPrice() {
