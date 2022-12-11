@@ -67,8 +67,8 @@ public class SecurityAccount extends Account{
     public double getStockHoldingValue() {
         /*
         This method calculates the total value of stocks held in portfolio.
-        This is done by generating a random swing percentage.
-        Then it is randomly decided if the change is an increase or decrease in price.
+        This is done by looping through all the stocks.
+        Then it is multiplied stock price by quantity to add up holding value.
          */
         double holding=0;
 
@@ -82,9 +82,22 @@ public class SecurityAccount extends Account{
 
     }
 
-    //todo
-    public double checkUnrealizedGain(){
-        return 0;
+    public double getUnrealizedGain(){
+        /*
+        This method calculates the total increase in value of stocks held in portfolio,
+        from their original buying price.
+        This is done by looping through all the stocks.
+        Then gain/loss of each stock is calculated and added up.
+         */
+        double unrealizedGains=0;
+
+        // Loop through the list of stocks owned
+        for (Stock stock: stockListOwned){
+            // Calculate as current price of stock subtracted by buy price
+            unrealizedGains += stock.getStockPrice() - stock.getStockBuyPrice();
+        }
+
+        return unrealizedGains;
     }
 
     //todo
