@@ -102,12 +102,42 @@ public class SecurityAccount extends Account{
 
     //todo
     public double checkLoss() {
-        return 0;
+        return loss;
     }
 
-    //todo
-    public double buyTrade(Stock stock, double amount){
-        return 0;
+    public boolean buyTrade(Stock stock, int quantity){
+        /*
+        This method makes purchase of stocks to add in portfolio.
+        Checks quantity of stock to be bought.
+        Checks if sufficient balance available to make purchase.
+        Check if stock already owned, if so increase quantity of owned stock.
+        This is done by looping through all the stocks,
+        if same stock id found, add it up.
+         */
+
+        // Check for sufficient balance against total purchase value.
+        double purchaseValue;
+        purchaseValue = stock.getStockPrice() * quantity;
+        if (stockBalance < purchaseValue)
+            return false;
+
+        // Loop through the list of stocks owned
+        // Check if stock already in portfolio
+        for (Stock ownedStock: stockListOwned){
+            if (ownedStock.getStockId() == stock.getStockId()){
+                // If already owned make purchase and add quantity
+                stockBalance -= purchaseValue;
+                ownedStock.setStockQuantity(ownedStock.getStockQuantity() + quantity);
+                return true;
+            }
+        }
+
+        // If stock not owned, add to portfolio and make purchase
+        Stock newStock = new Stock(stock.getStockId(),stock.getStockName(),stock.getStockPrice(),quantity);
+        stockBalance -= purchaseValue;
+        stockListOwned.add(newStock);
+
+        return true;
     }
 
     //todo

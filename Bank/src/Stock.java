@@ -11,11 +11,12 @@ public class Stock {
     private double stockBuyPrice;
     private int stockQuantity;
 
-    public Stock(int stockId, String stockName, double stockPrice){
+    public Stock(int stockId, String stockName, double stockPrice, int stockQuantity){
         setStockId(stockId);
         setStockName(stockName);
         setStockPrice(stockPrice);
         setStockBuyPrice(stockPrice);
+        setStockQuantity(stockQuantity);
     }
 
     public double getStockPrice() {
