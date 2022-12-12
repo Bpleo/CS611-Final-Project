@@ -7,8 +7,11 @@ public class LoanAccount extends Account{
     private LocalDate loanDate;
     private LocalDate paidDate;
 
-    public LoanAccount(int accountId, Customer customerId, double loanAmount, CurrencyType loanType, double loanInterest, int loanPeriod, LocalDate loanDate) {
+    public LoanAccount(int accountId, Customer customerId) {
         super(AccountType.LOAN, accountId, customerId);
+    }
+    //Must call when create a loan account
+    public void requestLoan(double loanAmount, CurrencyType loanType, double loanInterest, int loanPeriod, LocalDate loanDate){
         this.loanAmount = loanAmount;
         this.loanType = loanType;
         this.loanInterest = loanInterest;

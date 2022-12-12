@@ -1,5 +1,4 @@
 public abstract class Account {
-
     private AccountType type;
     private int accountId;
     private Customer customerId;

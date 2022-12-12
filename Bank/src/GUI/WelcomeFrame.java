@@ -29,8 +29,6 @@ public class WelcomeFrame extends JFrame implements ActionListener {
         setLocationAndSize();
         addActionEvent();
 
-
-
     }
 
     private void setLayoutManager() {

@@ -7,11 +7,10 @@ public class SavingAccount extends Account{
     private HashMap<CurrencyType, SavingDeposit> balance;
 
     //when created, must deposit something in it.
-    public SavingAccount(int accountHolderId, Customer customerId, double interestSaving, CurrencyType currency, double amount) {
+    public SavingAccount(int accountHolderId, Customer customerId) {
         super(AccountType.SAVING, accountHolderId, customerId);
         balance = new HashMap<>();
-        deposit(currency, amount);
-        this.interestSaving = interestSaving;
+        this.interestSaving = 0;
     }
 
     public double getInterestSaving() {
