@@ -13,6 +13,17 @@ public class Customer {
         accounts = new ArrayList<>();
     }
 
+    public void addAccount(Account account){
+        accounts.add(account);
+    }
+
+    public void removeAccount(int accoundId){
+        for (int i = 0; i < accounts.size(); i++){
+            if (accounts.get(i).getAccountId() == accoundId)
+                accounts.remove(i);
+        }
+    }
+
     public ArrayList<Account> getAccounts() {
         return accounts;
     }
