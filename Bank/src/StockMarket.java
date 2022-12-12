@@ -16,6 +16,7 @@ public class StockMarket {
     public boolean addStockToMarket(Stock stock){
         /*
         This method takes a stock as argument.
+        Loop through all stock in stock market list.
         Check if stock already present in stockMarket,
         If not, add it.
         */
@@ -38,6 +39,7 @@ public class StockMarket {
     public boolean removeStockFromMarket(Stock stock){
         /*
         This method takes a stock as argument.
+        Loop through all stock in stock market list.
         if stock present in stockMarket, remove it.
         */
 
@@ -55,5 +57,22 @@ public class StockMarket {
 
         return false;
     }
+
+    public void simulateStockMarket() {
+        /*
+        This method is used to simulate the change in the stock market
+        It is done is randomizing the stock's price.
+        Loop through all the stocks and simulate their price changes.
+         */
+
+        // Loop through the stocks list in stock market
+        for (Stock marketStock: stockMarketList) {
+
+            // For each stock simulate its price change
+            marketStock.simulateStockPrice();
+        }
+
+    }
+
 
 }
