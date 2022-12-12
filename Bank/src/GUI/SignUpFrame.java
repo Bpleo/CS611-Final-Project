@@ -100,5 +100,10 @@ public class SignUpFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        //Coding Part of RESET button
+        if (e.getSource() == resetButton) {
+            reset();
+        }
+
     }
 }

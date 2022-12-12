@@ -75,6 +75,19 @@ public class LoginFrame extends JFrame implements ActionListener {
 //    TODO
     @Override
     public void actionPerformed(ActionEvent e) {
+        //showPassword JCheckBox
+        if (e.getSource() == showPassword) {
+            if (showPassword.isSelected()) {
+                passwordField.setEchoChar((char) 0);
+            } else {
+                passwordField.setEchoChar('*');
+            }
+        }
+
+        //Coding Part of RESET button
+        if (e.getSource() == resetButton) {
+            reset();
+        }
 
     }
 }
