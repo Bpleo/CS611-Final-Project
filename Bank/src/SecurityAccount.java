@@ -141,7 +141,53 @@ public class SecurityAccount extends Account{
     }
 
     //todo
-    public double sellTrade(Stock stock, double amount){
+    public double sellTrade(Stock stock, int quantity){
+        /*
+        This method sells stocks in portfolio.
+        Checks available quantity of stocks to be sold.
+        This is done by looping through all the stocks,
+        if same stock is found, subtract quantity from it.
+        Checks for current price of the stock against buy price.
+        Update stock balance and profit/loss.
+        If stock balance is <=0 remove from owned stocks list.
+         */
+
+        // Check for sufficient quantity available for selling
+        double sellValue;
+        sellValue = stock.getStockPrice() * quantity;
+
+        // Loop through the list of stocks owned
+        // Check if stock in portfolio
+        for (Stock ownedStock: stockListOwned){
+            if (ownedStock.getStockId() == stock.getStockId()){
+                // If sufficient stock quantity available sell it and add profits
+                if (ownedStock.getStockQuantity() < quantity)
+                    return 0;
+
+                // Calculate profit/loss on trade
+                double stockBuyPrice = ownedStock.getStockBuyPrice() * ownedStock.getStockQuantity();
+                double tradeValue = sellValue - stockBuyPrice;
+                if (tradeValue > 0){
+                    profit += tradeValue;
+                } else{
+                    loss += tradeValue;
+                }
+
+                // Sell the stock and add to stock balance
+                ownedStock.setStockQuantity(ownedStock.getStockQuantity() - quantity);
+                stockBalance += sellValue;
+
+                // If stock quantity is <= 0, remove from owned stocks list
+                if (ownedStock.getStockQuantity() <= 0){
+                    stockListOwned.remove(ownedStock);
+                }
+
+                return sellValue;
+            }
+        }
+
+        // If stock not owned, return 0
+
         return 0;
     }
 
