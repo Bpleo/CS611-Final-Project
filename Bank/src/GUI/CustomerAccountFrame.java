@@ -96,4 +96,14 @@ public class CustomerAccountFrame extends JFrame implements ActionListener {
 
     }
 
+//Preview
+    public static void main(String[] args){
+        CustomerAccountFrame frame=new CustomerAccountFrame("1");
+        frame.setTitle("Customer Account");
+        frame.setLocation(10,10);
+        frame.setSize(1000,800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
 }
