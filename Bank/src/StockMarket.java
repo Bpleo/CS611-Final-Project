@@ -74,7 +74,7 @@ public class StockMarket {
 
     }
 
-    public Stock getStockById(int stockId){
+    public static Stock getStockById(int stockId){
         /*
         This method is used to fetch the stock in the stock market
         Loop through all the stocks and return with matching id.

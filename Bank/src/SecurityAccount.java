@@ -73,8 +73,11 @@ public class SecurityAccount extends Account{
         /*
         This method calculates the total value of stocks held in portfolio.
         This is done by looping through all the stocks.
-        Then it is multiplied stock price by quantity to add up holding value.
+        Then it is multiplied stock price by quantity to add to holding value.
          */
+
+        updateStockPrices();
+
         double holding=0;
 
         // Loop through the list of stocks owned
@@ -94,6 +97,9 @@ public class SecurityAccount extends Account{
         This is done by looping through all the stocks.
         Then gain/loss of each stock is calculated and added up.
          */
+
+        updateStockPrices();
+
         double unrealizedGains=0;
 
         // Loop through the list of stocks owned
@@ -119,6 +125,8 @@ public class SecurityAccount extends Account{
         This is done by looping through all the stocks,
         if same stock id found, add it up.
          */
+
+        updateStockPrices();
 
         // Check for sufficient balance against total purchase value.
         double purchaseValue;
@@ -157,6 +165,8 @@ public class SecurityAccount extends Account{
         If stock balance is <=0 remove from owned stocks list.
          */
 
+        updateStockPrices();
+
         // Check for sufficient quantity available for selling
         double sellValue;
         sellValue = stock.getStockPrice() * quantity;
@@ -194,6 +204,30 @@ public class SecurityAccount extends Account{
         // If stock not owned, return 0
 
         return 0;
+    }
+
+    public boolean updateStockPrices(){
+        /*
+        This method sets the current market price of stocks held in portfolio.
+        It sets the price to be the same as the one in the stock market.
+        This is done by looping through all the stocks.
+        Then we get the market stock by is and set ou stock holding price..
+         */
+
+        // Loop through the list of stocks owned
+        for (Stock stock: stockListOwned){
+
+            // Fetch the marketStock by its Id from the stock market
+            Stock marketStock = StockMarket.getStockById(stock.getStockId());
+
+            // Set the latest price of the stock in the portfolio
+            if(marketStock!=null) {
+                stock.setStockPrice(marketStock.getStockPrice());
+            }
+
+        }
+
+        return true;
     }
 
     //todo
