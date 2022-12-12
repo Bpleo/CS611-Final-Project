@@ -88,5 +88,32 @@ public class Stock {
 
     }
 
+    public boolean addStockQuantity(int addQuantity) {
+        /*
+        This method is used to add purchased quantity to stock holding.
+         */
+
+        stockQuantity += addQuantity;
+
+        return true;
+
+    }
+
+    public boolean subtractStockQuantity(int subtractQuantity) {
+        /*
+        This method is used to subtract sold quantity from stock holding.
+         */
+
+        // Check if required quantity of stock exists
+        if (stockQuantity < subtractQuantity){
+            return false;
+        }
+
+        stockQuantity -= subtractQuantity;
+
+        return true;
+
+    }
+
 
 }
