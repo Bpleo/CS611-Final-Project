@@ -1,10 +1,10 @@
 public class CheckingFactory implements AccountFactoryInterface {
 
 
-    private Customer customerID;
+    private int customerID;
     private CurrencyType currencyType;
 
-    public CheckingFactory (Customer customerID, CurrencyType currencyType) {
+    public CheckingFactory (int customerID, CurrencyType currencyType) {
         this.currencyType = currencyType;
         this.customerID = customerID;
     }

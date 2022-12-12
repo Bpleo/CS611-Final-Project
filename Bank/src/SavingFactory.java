@@ -1,8 +1,8 @@
 public class SavingFactory implements AccountFactoryInterface {
-    private Customer customerID;
+    private int customerID;
     private CurrencyType currencyType;
 
-    public SavingFactory (Customer customerID, CurrencyType currencyType) {
+    public SavingFactory (int customerID, CurrencyType currencyType) {
         this.currencyType = currencyType;
         this.customerID = customerID;
     }

@@ -5,7 +5,7 @@
 
 public class AccountFactory {
 
-    public static Account createAccount (AccountType accountType, CurrencyType currencyType, Customer customerID) {
+    public static Account createAccount (AccountType accountType, CurrencyType currencyType, int customerID) {
 
 
         AccountFactoryInterface f; 

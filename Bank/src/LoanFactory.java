@@ -1,9 +1,9 @@
 public class LoanFactory implements AccountFactoryInterface {
 
-    private Customer customerID;
+    private int customerID;
     private CurrencyType currencyType;
 
-    public LoanFactory (Customer customerID, CurrencyType currencyType) {
+    public LoanFactory (int customerID, CurrencyType currencyType) {
         this.currencyType = currencyType;
         this.customerID = customerID;
     }

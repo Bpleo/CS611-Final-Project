@@ -1,8 +1,8 @@
 public class SecurityFactory implements AccountFactoryInterface {
-    private Customer customerID;
+    private int customerID;
     private CurrencyType currencyType;
 
-    public SecurityFactory (Customer customerID, CurrencyType currencyType) {
+    public SecurityFactory (int customerID, CurrencyType currencyType) {
         this.currencyType = currencyType;
         this.customerID = customerID;
     }

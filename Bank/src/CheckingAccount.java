@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class CheckingAccount extends Account{
     private HashMap<CurrencyType, Double> deposit;
-    public CheckingAccount(int accountHolderId, Customer customerId) {
+    public CheckingAccount(int accountHolderId, int customerId) {
         super(AccountType.CHECKING, accountHolderId,  customerId);
         deposit = new HashMap<>();
     }
