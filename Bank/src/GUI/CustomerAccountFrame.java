@@ -21,7 +21,7 @@ public class CustomerAccountFrame extends JFrame implements ActionListener {
     private int customerID;
 
     public CustomerAccountFrame(String username) {
-        setTitle("Customer Account");
+        setTitle("Customer Main Menu");
         setVisible(true);
         setBounds(10,10,1000,800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -99,7 +99,7 @@ public class CustomerAccountFrame extends JFrame implements ActionListener {
 //Preview
     public static void main(String[] args){
         CustomerAccountFrame frame=new CustomerAccountFrame("1");
-        frame.setTitle("Customer Account");
+        frame.setTitle("Customer Main Menu");
         frame.setLocation(10,10);
         frame.setSize(1000,800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
