@@ -64,6 +64,11 @@ public class SecurityAccount extends Account{
         this.loss = loss;
     }
 
+    public ArrayList<Stock> getStockListOwned() {
+        return stockListOwned;
+    }
+
+
     public double getStockHoldingValue() {
         /*
         This method calculates the total value of stocks held in portfolio.
