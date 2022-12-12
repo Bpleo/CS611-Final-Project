@@ -12,4 +12,28 @@ public class Customer {
         customerId = id;
         accounts = new ArrayList<>();
     }
+
+    public ArrayList<Account> getAccounts() {
+        return accounts;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 }
