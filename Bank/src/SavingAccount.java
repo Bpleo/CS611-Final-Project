@@ -62,11 +62,20 @@ public class SavingAccount extends Account{
         }
     }
 
-    public double getBalance(CurrencyType currency){
-        return balance.get(currency).getAmount();
+    public LocalDate getDepositDate(CurrencyType currency){
+        if (balance.containsKey(currency))
+            return balance.get(currency).getDepositDate();
+        else
+            return null;
     }
 
-    //todo
+    public double getBalance(CurrencyType currency){
+        if (balance.containsKey(currency))
+            return balance.get(currency).getAmount();
+        else
+            return -1;
+    }
+
     public boolean checkSecurityTransferEligibility(CurrencyType currency){
         return stockEligibility;
     }

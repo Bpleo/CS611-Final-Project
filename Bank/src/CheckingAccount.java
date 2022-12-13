@@ -1,4 +1,4 @@
-import java.util.Currency;
+
 import java.util.HashMap;
 
 public class CheckingAccount extends Account{
@@ -29,8 +29,11 @@ public class CheckingAccount extends Account{
             return false;
     }
 
-    public double getDeposit(Currency currency){
-        return deposit.get(currency);
+    public double getDeposit(CurrencyType currency){
+        if (deposit.containsKey(currency))
+            return deposit.get(currency);
+        else
+            return -1;
     }
 
 }

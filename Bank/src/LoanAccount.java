@@ -43,4 +43,23 @@ public class LoanAccount extends Account{
 
     }
 
+    public double getLoanAmount() {
+        return loanAmount;
+    }
+
+    public CurrencyType getLoanType() {
+        return loanType;
+    }
+
+    public LocalDate getLoanDate() {
+        return loanDate;
+    }
+
+    public double getLoanInterest() {
+        return loanInterest;
+    }
+
+    public LocalDate getPaidDate() {
+        return paidDate;
+    }
 }
