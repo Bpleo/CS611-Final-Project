@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 
-public class SecurityAccount extends Account{
+public class SecurityAccount extends Account {
     private double stockBalance;
     private double profit;
     private double loss;
@@ -14,13 +14,24 @@ public class SecurityAccount extends Account{
         setStockBalance(0);
         stockListOwned = new ArrayList<Stock>();
     }
+
+    public SecurityAccount(int accountId, Customer customerId, double stockBalance, double profit,
+                           double loss, ArrayList<Stock> stockArrayList) {
+        super(AccountType.SECURITY, accountId, customerId);
+        setLoss(loss);
+        setProfit(profit);
+        setStockBalance(stockBalance);
+        this.stockListOwned = new ArrayList<Stock>();
+        this.stockListOwned = stockArrayList;
+    }
+
     public boolean withdraw(CurrencyType currencyType, double amount) {
         /*
         Method used to withdraw money from stockBalance
         Checks for sufficient balance
          */
 
-        if (stockBalance > amount){
+        if (stockBalance > amount) {
             stockBalance -= amount;
             return true;
         }
@@ -34,7 +45,7 @@ public class SecurityAccount extends Account{
         Method used to deposit money to stockBalance
          */
 
-        if (amount > 0){
+        if (amount > 0) {
             stockBalance += amount;
         }
 
@@ -78,10 +89,10 @@ public class SecurityAccount extends Account{
 
         updateStockPrices();
 
-        double holding=0;
+        double holding = 0;
 
         // Loop through the list of stocks owned
-        for (Stock stock: stockListOwned){
+        for (Stock stock : stockListOwned) {
             // Calculate as price of stock times the quantity of the stock
             holding += stock.getStockPrice() * stock.getStockQuantity();
         }
@@ -90,7 +101,7 @@ public class SecurityAccount extends Account{
 
     }
 
-    public double getUnrealizedGain(){
+    public double getUnrealizedGain() {
         /*
         This method calculates the total increase in value of stocks held in portfolio,
         from their original buying price.
@@ -100,10 +111,10 @@ public class SecurityAccount extends Account{
 
         updateStockPrices();
 
-        double unrealizedGains=0;
+        double unrealizedGains = 0;
 
         // Loop through the list of stocks owned
-        for (Stock stock: stockListOwned){
+        for (Stock stock : stockListOwned) {
             // Calculate as current price of stock subtracted by buy price
             unrealizedGains += stock.getStockPrice() - stock.getStockBuyPrice();
         }
@@ -116,7 +127,7 @@ public class SecurityAccount extends Account{
         return loss;
     }
 
-    public boolean buyTrade(Stock stock, int quantity){
+    public boolean buyTrade(Stock stock, int quantity) {
         /*
         This method makes purchase of stocks to add in portfolio.
         Checks quantity of stock to be bought.
@@ -136,8 +147,8 @@ public class SecurityAccount extends Account{
 
         // Loop through the list of stocks owned
         // Check if stock already in portfolio
-        for (Stock ownedStock: stockListOwned){
-            if (ownedStock.getStockId() == stock.getStockId()){
+        for (Stock ownedStock : stockListOwned) {
+            if (ownedStock.getStockId() == stock.getStockId()) {
                 // If already owned make purchase and add quantity
                 stockBalance -= purchaseValue;
                 ownedStock.setStockQuantity(ownedStock.getStockQuantity() + quantity);
@@ -146,7 +157,7 @@ public class SecurityAccount extends Account{
         }
 
         // If stock not owned, add to portfolio and make purchase
-        Stock newStock = new Stock(stock.getStockId(),stock.getStockName(),stock.getStockPrice(),quantity);
+        Stock newStock = new Stock(stock.getStockId(), stock.getStockName(), stock.getStockPrice(), quantity);
         stockBalance -= purchaseValue;
         stockListOwned.add(newStock);
 
@@ -154,7 +165,7 @@ public class SecurityAccount extends Account{
     }
 
     //todo
-    public double sellTrade(Stock stock, int quantity){
+    public double sellTrade(Stock stock, int quantity) {
         /*
         This method sells stocks in portfolio.
         Checks available quantity of stocks to be sold.
@@ -173,8 +184,8 @@ public class SecurityAccount extends Account{
 
         // Loop through the list of stocks owned
         // Check if stock in portfolio
-        for (Stock ownedStock: stockListOwned){
-            if (ownedStock.getStockId() == stock.getStockId()){
+        for (Stock ownedStock : stockListOwned) {
+            if (ownedStock.getStockId() == stock.getStockId()) {
                 // If sufficient stock quantity available sell it and add profits
                 if (ownedStock.getStockQuantity() < quantity)
                     return 0;
@@ -182,9 +193,9 @@ public class SecurityAccount extends Account{
                 // Calculate profit/loss on trade
                 double stockBuyPrice = ownedStock.getStockBuyPrice() * ownedStock.getStockQuantity();
                 double tradeValue = sellValue - stockBuyPrice;
-                if (tradeValue > 0){
+                if (tradeValue > 0) {
                     profit += tradeValue;
-                } else{
+                } else {
                     loss += tradeValue;
                 }
 
@@ -193,7 +204,7 @@ public class SecurityAccount extends Account{
                 stockBalance += sellValue;
 
                 // If stock quantity is <= 0, remove from owned stocks list
-                if (ownedStock.getStockQuantity() <= 0){
+                if (ownedStock.getStockQuantity() <= 0) {
                     stockListOwned.remove(ownedStock);
                 }
 
@@ -206,7 +217,7 @@ public class SecurityAccount extends Account{
         return 0;
     }
 
-    public boolean updateStockPrices(){
+    public boolean updateStockPrices() {
         /*
         This method sets the current market price of stocks held in portfolio.
         It sets the price to be the same as the one in the stock market.
@@ -215,13 +226,13 @@ public class SecurityAccount extends Account{
          */
 
         // Loop through the list of stocks owned
-        for (Stock stock: stockListOwned){
+        for (Stock stock : stockListOwned) {
 
             // Fetch the marketStock by its Id from the stock market
             Stock marketStock = StockMarket.getStockById(stock.getStockId());
 
             // Set the latest price of the stock in the portfolio
-            if(marketStock!=null) {
+            if (marketStock != null) {
                 stock.setStockPrice(marketStock.getStockPrice());
             }
 
@@ -231,7 +242,7 @@ public class SecurityAccount extends Account{
     }
 
     //todo
-    public void openPosition(){
+    public void openPosition() {
 
     }
 }
