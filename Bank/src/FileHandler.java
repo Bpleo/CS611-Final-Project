@@ -15,6 +15,7 @@ public class FileHandler {
     private ArrayList<LoanAccount> loanAccountList;
     private ArrayList<SecurityAccount> securityAccountList;
     private ArrayList<Customer> customerList;
+    //If run in terminal, change the front . to ..
     private final String dirPath = "." + File.pathSeparator + "csvFile" + File.pathSeparator;
 
     public FileHandler(){
@@ -23,6 +24,26 @@ public class FileHandler {
         loanAccountList = new ArrayList<>();
         securityAccountList = new ArrayList<>();
         customerList = new ArrayList<>();
+    }
+
+    public ArrayList<CheckingAccount> getCheckingAccountList() {
+        return checkingAccountList;
+    }
+
+    public ArrayList<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public ArrayList<LoanAccount> getLoanAccountList() {
+        return loanAccountList;
+    }
+
+    public ArrayList<SavingAccount> getSavingAccountList() {
+        return savingAccountList;
+    }
+
+    public ArrayList<SecurityAccount> getSecurityAccountList() {
+        return securityAccountList;
     }
 
     public void readFiles() {
@@ -103,7 +124,35 @@ public class FileHandler {
     }
 
     private void readSecurity(){
-
+        try{
+            Scanner in = new Scanner(new File(dirPath + "security.csv"));
+            while (in.hasNext()){
+                String[] info = in.nextLine().split(",");
+                //Get attribute
+                int cId = Integer.parseInt(info[0]);
+                int aId = Integer.parseInt(info[1]);
+                double stockBalance = Double.parseDouble(info[2]);
+                double profit = Double.parseDouble(info[3]);
+                double loss = Double.parseDouble(info[4]);
+                //Fill in stocks owned
+                ArrayList<Stock> stocks = new ArrayList<>();
+                for (int i = 5; i < info.length; i+=5){
+                    int sId = Integer.parseInt(info[i]);
+                    String name = info[i+1];
+                    double price = Double.parseDouble(info[i+2]);
+                    double buyPrice = Double.parseDouble(info[i+3]);
+                    int quantity = Integer.parseInt(info[i+4]);
+                    Stock tempStock = new Stock(sId,name,price,quantity);
+                    tempStock.setStockBuyPrice(buyPrice);
+                    stocks.add(tempStock);
+                }
+                SecurityAccount tempS = new SecurityAccount(aId,cId,stockBalance,profit,loss,stocks);
+                securityAccountList.add(tempS);
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
     }
 
     private void readCustomer(){
@@ -241,6 +290,15 @@ public class FileHandler {
             PrintWriter out = new PrintWriter(temp);
             for (int i = 0; i < securityAccountList.size(); i++){
                 SecurityAccount tempS = securityAccountList.get(i);
+                out.print(tempS.getCustomerId() + "," + tempS.getAccountId() + "," + tempS.getStockBalance());
+                out.print("," + tempS.getProfit() + "," + tempS.getLoss());
+                ArrayList<Stock> stocks = tempS.getStockListOwned();
+                for (int j = 0; j < stocks.size(); j++){
+                    out.print("," + stocks.get(j).getStockId() + "," + stocks.get(j).getStockName());
+                    out.print("," + stocks.get(j).getStockPrice() + "," + stocks.get(j).getStockBuyPrice());
+                    out.print("," + stocks.get(j).getStockQuantity());
+                }
+                out.println();
             }
             out.close();
         }catch (IOException e){

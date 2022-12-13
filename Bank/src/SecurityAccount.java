@@ -15,7 +15,7 @@ public class SecurityAccount extends Account {
         stockListOwned = new ArrayList<Stock>();
     }
 
-    public SecurityAccount(int accountId, Customer customerId, double stockBalance, double profit,
+    public SecurityAccount(int accountId, int customerId, double stockBalance, double profit,
                            double loss, ArrayList<Stock> stockArrayList) {
         super(AccountType.SECURITY, accountId, customerId);
         setLoss(loss);
