@@ -26,6 +26,10 @@ public class SavingAccount extends Account{
         return withdraw(LocalDate.now(),currency,amount);
     }
 
+    public void deposit(CurrencyType currency, SavingDeposit deposit){
+        balance.put(currency,deposit);
+    }
+
     @Override
     public void deposit(CurrencyType currency, double amount) {
         if (balance.containsKey(currency))
