@@ -105,7 +105,8 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == checkTransactionButton) {
 //            TODO
-//
+//            need to get all the transactions info fist
+//            new ViewTransactions(here need the transaction instance)
         }
         if (e.getSource() == createAccountButton) {
 //            TODO
@@ -117,15 +118,16 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == loanButton) {
 //            TODO
-//
+//            new LoanFrame(user);
         }
         if (e.getSource() == makeTransactionButton) {
 //            TODO
-//
+//            new ChooseTransactions(user);
         }
         if(e.getSource() == stockButton){
 //            TODO
-//
+//            need to get the stock info from the csv first
+//            new StockGUI(user);
         }
         if (e.getSource() == logoutButton) {
             dispose();
