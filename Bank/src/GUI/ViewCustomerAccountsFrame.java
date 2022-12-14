@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ViewCustomerAccountsFrame extends JFrame {
     private JPanel viewAccountsPanel;
@@ -26,7 +27,23 @@ public class ViewCustomerAccountsFrame extends JFrame {
         userIDLabel.setText(String.valueOf(userID));
 
         //TODO:add account list and show it
-
+//        get account list info
+//        need modify
+//        for (Account account : list) {
+//            String accountType = "";
+//            if(account.getType() == AccountType.SAVING)
+//                accountType = "Savings Account";
+//            else if(account.getType() == AccountType.CHECKING)
+//                accountType = "Checking Account";
+//            else if(account.getType() == AccountType.STOCK)
+//                accountType = "Stock Account";
+//            System.out.println(account);
+//            idField.append("" + func(here need to get account id) + "\n\n");
+//            accountField.append(accountType + "\n\n");
+//            balanceField.append("" + func(here need to get account deposit) + "\n\n");
+//            currencyField.append("" + func(here need to get account currency) + "\n\n");
+//            dateField.append("" + func(here need to get account OpenDate) + "\n\n");
+//        }
 
         backButton.addActionListener(new ActionListener() {
             @Override

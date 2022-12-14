@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CustomerAccountFrame extends JFrame implements ActionListener {
+public class CustomerMainMenuFrame extends JFrame implements ActionListener {
     private final String username;
     private final Container container;
     private final JLabel userLabel;
@@ -20,7 +20,7 @@ public class CustomerAccountFrame extends JFrame implements ActionListener {
     private final JButton stockButton;
     private int customerID;
 
-    public CustomerAccountFrame(String username) {
+    public CustomerMainMenuFrame(String username) {
         setTitle("Customer Main Menu");
         setVisible(true);
         setBounds(10,10,1000,800);
@@ -93,12 +93,47 @@ public class CustomerAccountFrame extends JFrame implements ActionListener {
 //TODO
     @Override
     public void actionPerformed(ActionEvent e) {
+        //login button
+        if (e.getSource() == profileButton) {
+            new ProfileFrame(username);
+        }
+        if (e.getSource() == accountButton) {
+//            TODO
+//            new ViewCustomerAccountsFrame( here need to get id );
+        }
+        if (e.getSource() == checkTransactionButton) {
+//            TODO
+//
+        }
+        if (e.getSource() == createAccountButton) {
+//            TODO
+//
+        }
+        if (e.getSource() == closeAccountButton) {
+//            TODO
+//
+        }
+        if (e.getSource() == loanButton) {
+//            TODO
+//
+        }
+        if (e.getSource() == makeTransactionButton) {
+//            TODO
+//
+        }
+        if(e.getSource() == stockButton){
+//            TODO
+//
+        }
+        if (e.getSource() == logoutButton) {
+            dispose();
+        }
 
     }
 
 //Preview
     public static void main(String[] args){
-        CustomerAccountFrame frame=new CustomerAccountFrame("1");
+        CustomerMainMenuFrame frame=new CustomerMainMenuFrame("1");
         frame.setTitle("Customer Main Menu");
         frame.setLocation(10,10);
         frame.setSize(1000,800);
