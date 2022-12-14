@@ -1,9 +1,8 @@
-package GUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 
 public class SignUpFrame extends JFrame implements ActionListener {
@@ -99,8 +98,52 @@ public class SignUpFrame extends JFrame implements ActionListener {
     //    TODO
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Coding Part of create button
+        if (e.getSource() == createButton) {
+            String firstname;
+            String lastname;
+            String userName;
+            String pw;
+            String pc;
+            firstname = firstName.getText();
+            lastname = lastName.getText();
+            userName = username.getText();
+            pw = password.getText();
+            pc = passwordConfirm.getText();
+            if(firstname.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter a first name");
+            }
+            else if(lastname.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter a last name");
+            }
+            else if(userName.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter a username");
+            }
+            else if(pw.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter a password");
+            }
+            else if(!Objects.equals(pc, pw)){
+                JOptionPane.showMessageDialog(this, "Passwords do not match. Please re-enter passwords");
+                password.setText("");
+                passwordConfirm.setText("");
+            }
+//            TODO
+//            else if(!Database.checkUserExist(userName).isEmpty()){
+//                JOptionPane.showMessageDialog(this, "User already exists. Please enter a different username");
+//                username.setText("");
+//            }
+            else{
+//                TODO
+//                need a class of signup, the class can add firstname, lastname, userName, usertype:CUSTOMER, pw, pc
+//                need a class of signup to adduser, which has a func of adduser, so it can be called here.
 
-        //Coding Part of RESET button
+                JOptionPane.showMessageDialog(this,
+                        "Account created! Please login to your account");
+                dispose();
+                new LoginFrame();
+            }
+        }
+        //Coding Part of reset button
         if (e.getSource() == resetButton) {
             reset();
         }

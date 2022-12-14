@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -109,6 +107,7 @@ public class ProfileFrame extends JFrame implements ActionListener {
                 //TODO: update Password in database
                 JOptionPane.showMessageDialog(this, "Password Updated");
                 //TODO: update Password in this frame
+                //password.setText( need to show new password here );
                 newPwdField.setText("");
             }
         }

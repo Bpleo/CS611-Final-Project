@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +9,11 @@ public class ViewTransactionsInfo extends JFrame {
     private JTextArea amountField;
     private JTextArea memoField;
     private JButton backButton;
+    private JLabel dateLabel;
+    private JLabel amountLabel;
+    private JLabel memoLabel;
     private JPanel transactionPanel;
+    private JLabel userIdLabel;
     private JTextArea userIdField;
 
 //    TODO
@@ -24,7 +26,7 @@ public class ViewTransactionsInfo extends JFrame {
 //        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //        transactionPanel.setAutoscrolls(true);
 //
-//        for (Transaction transaction : transactions) {
+//        for (Transaction aname : bname ) {
 //            System.out.println(transaction);//test
 //            userIdField.append( here need func(need to get this transaction's user Id) + "\n\n");
 //            memoField.append( here need func(need to get this transaction's logs) + "\n\n");

@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -97,10 +95,10 @@ public class LoginFrame extends JFrame implements ActionListener {
 //            }
             else{
 //                TODO
-//                need class login
+//                need class login, the class includes string userText and pwdText
 //                if( check wheather the user is empty ){
 //                    JOptionPane.showMessageDialog(this, "No user found, Please create an account");
-//                }else if( check if the pwd equals to the input pwd ){
+//                }else if( check if the pwd equals to the input pwd so it can run ){
 //                    if( if the usertype is customer ){
 //                        JOptionPane.showMessageDialog(this, "Customer Login Successful");
 //                        dispose();

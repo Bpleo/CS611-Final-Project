@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +17,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
     private final JButton logoutButton;
     private final JButton stockButton;
     private int customerID;
+    //private final User user; need a user class
 
     public CustomerMainMenuFrame(String username) {
         setTitle("Customer Main Menu");
@@ -43,6 +42,9 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         addActionEvent();
         this.username = username;
         userLabel.setText("Username: " + this.username);
+        //TODO
+        //this.customerID = here need to get userid from database
+        //user = here need to get a user object from username, which retrieves user by username
     }
 
 
@@ -99,7 +101,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == accountButton) {
 //            TODO
-//            new ViewCustomerAccountsFrame( here need to get id );
+//            new ViewCustomerAccountsFrame( here need to get userid );
         }
         if (e.getSource() == checkTransactionButton) {
 //            TODO
@@ -107,11 +109,11 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == createAccountButton) {
 //            TODO
-//
+//            new CreateAccountFrame(this.user);
         }
         if (e.getSource() == closeAccountButton) {
 //            TODO
-//
+//            new CloseAccount(this.user);
         }
         if (e.getSource() == loanButton) {
 //            TODO
