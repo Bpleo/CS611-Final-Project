@@ -75,7 +75,7 @@ public class CreateAccountFrame extends JFrame {
 //                        JOptionPane.showMessageDialog(createAccountPanel, "You don't have a saving account. You must have more than $5000 in your saving account");
 //
 //                    } else if(here need to check thr saving's deposit Amount >5000){
-//                        here can create new account about the stock
+//                        here can create new account about the stock (userid,deposit,getCurrency(func below),(AccountType) comboBoxAccountType.getSelectedItem())
 //                        get all the new account info
 //                        JOptionPane.showMessageDialog(createAccountPanel, "Account Created!");
 //                        need to add a withdraw fee when create a new stock account
@@ -84,7 +84,7 @@ public class CreateAccountFrame extends JFrame {
 //                        JOptionPane.showMessageDialog(createAccountPanel, "You must have more than $5000 in your saving account");
 //                    }
 //                } else{
-//                    here can create new account about the saving/checking
+//                    here can create new account about the saving/checking  (userid, deposit,getCurrency(func below),(AccountType) comboBoxAccountType.getSelectedItem())
 //                    get all the new account info
 //                    JOptionPane.showMessageDialog(createAccountPanel, "Account Created!");
 //                    dispose();
@@ -98,10 +98,18 @@ public class CreateAccountFrame extends JFrame {
         return Double.parseDouble(InitialDepositTextField.getText());
     }
 
-    //get input currency
-    private void getCurrency(){
-
-    }
+    //TODO:get input currency
+//    private void getCurrency(){
+//        if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.USD){
+//            make currency = USD
+//        }else if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.CNY){
+//            make urrency = CNY
+//        }else if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.KRW){
+//            make currency = KRW
+//        }
+//        return currency;
+//
+//    }
 
     public static void main(String[] args) {
         Customer user = new Customer("miaki", "l", 1);
