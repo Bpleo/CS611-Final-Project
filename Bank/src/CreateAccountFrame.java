@@ -112,7 +112,7 @@ public class CreateAccountFrame extends JFrame {
 //    }
 
     public static void main(String[] args) {
-        Customer user = new Customer("miaki", "l", 1);
+        Customer user = new Customer("miaki", "l", 1,"Longdan","Mao");
         CreateAccountFrame c = new CreateAccountFrame(user);
     }
 }

@@ -78,7 +78,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 //    TODO
     @Override
     public void actionPerformed(ActionEvent e) {
-        FileHandler.readFiles();
         if (e.getSource() == loginButton) {
             String userText;
             String pwdText;

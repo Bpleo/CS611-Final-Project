@@ -22,8 +22,6 @@ public class SignUpFrame extends JFrame implements ActionListener {
     private final JButton createButton;
     private final JButton resetButton;
 
-    private int userId = 0;
-
     SignUpFrame(){
         setTitle("Sign Up");
         setVisible(true);
@@ -137,8 +135,7 @@ public class SignUpFrame extends JFrame implements ActionListener {
             else{
 //                need a class of signup, the class can add firstname, lastname, userName, usertype:CUSTOMER, pw, pc
 //                need a class of signup to adduser, which has a func of adduser, so it can be called here.
-                Customer tempC = new Customer(userName,pw,userId, firstname, lastname);
-                userId++;
+                Customer tempC = CustomerFactory.createCustomer(userName,pw,firstname,lastname);
                 FileHandler.addUser(tempC);
                 FileHandler.writeFiles();
                 JOptionPane.showMessageDialog(this,

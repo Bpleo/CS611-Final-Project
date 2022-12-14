@@ -81,7 +81,7 @@ public class Deposit extends JFrame {
     }
 
     public static void main(String[] args) {
-        Customer user = new Customer("misaki", "l", 1);
+        Customer user = new Customer("misaki", "l", 1,"Longdan","Mao");
         Deposit c = new Deposit(user);
     }
 
