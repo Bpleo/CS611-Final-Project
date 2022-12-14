@@ -29,7 +29,7 @@ public class ViewCustomerAccountsFrame extends JFrame {
         //TODO:add account list and show it
 //        get account list info
 //        need modify
-//        for (Account account : list) {
+//        for (here need to add list of account) {
 //            String accountType = "";
 //            if(account.getType() == AccountType.SAVING)
 //                accountType = "Savings Account";
