@@ -79,6 +79,29 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
 //TODO
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == profileButton) {
+            new ProfileFrame(username);
+        }
+        if (e.getSource() == checkCustomerInfoButton) {
+            new CustomerList();
+        }
+        if (e.getSource() == viewTransactionButton) {
+//            TODO
+//            get all the transactions info
+//            new ViewTransactions( transactions );
+        }
+        if (e.getSource() == viewProfitButton) {
+//            TODO
+//            JOptionPane.showMessageDialog(this, "Total Profit: " + here need to get profit);
+        }
+        if (e.getSource() == stocksButton) {
+//            TODO
+//            get the stock info from the csv
+            new ManageStock();
+        }
+        if (e.getSource() == interestButton) {
+            new InterestRateFrame();
+        }
         if (e.getSource() == logoutButton) {
             dispose();
         }
