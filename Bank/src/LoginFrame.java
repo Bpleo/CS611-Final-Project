@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginFrame extends JFrame implements ActionListener {
@@ -14,6 +15,9 @@ public class LoginFrame extends JFrame implements ActionListener {
     private final JButton loginButton;
     private final JButton resetButton;
     private final JCheckBox showPassword;
+
+    private final ArrayList<User> userList = FileHandler.getUserList();
+
 
     public LoginFrame() {
         setTitle("Login");
@@ -74,6 +78,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 //    TODO
     @Override
     public void actionPerformed(ActionEvent e) {
+        FileHandler.readFiles();
         if (e.getSource() == loginButton) {
             String userText;
             String pwdText;
@@ -86,31 +91,24 @@ public class LoginFrame extends JFrame implements ActionListener {
             else if(pwdText.length() == 0){
                 JOptionPane.showMessageDialog(this, "Please enter a password");
             }
-//            TODO
-//            else if(!Objects.equals( *.checkUserExist(userText), pwdText)){
-//            comment: * here could be a class, provides the func checkUserExist, this func check if input username exist in database
-//                     return password if user in the database, empty otherwise. so it can use 'Objects.equals' to compare with the pwdText
-//                JOptionPane.showMessageDialog(this, "Invalid username or password");
-//                reset();
-//            }
-            else{
-//                TODO
-//                need class login, the class includes string userText and pwdText
-//                if( check wheather the user is empty ){
-//                    JOptionPane.showMessageDialog(this, "No user found, Please create an account");
-//                }else if( check if the pwd equals to the input pwd so it can run ){
-//                    if( if the usertype is customer ){
-//                        JOptionPane.showMessageDialog(this, "Customer Login Successful");
-//                        dispose();
-//                        new CustomerMainMenuFrame(userText);
-//                    }else{
-//                        JOptionPane.showMessageDialog(this, "Manager Login Successful");
-//                        dispose();
-//                        new ManagerAccountFrame(userText);
-//                    }
-//                }
+            else if (FileHandler.checkUser(userText) == null) {
+                JOptionPane.showMessageDialog(this, "No user found, Please create an account");
+            }else{
+                User tempU = FileHandler.checkUser(userText);
+                if (!tempU.getUserPwd().equals(pwdText)){
+                    JOptionPane.showMessageDialog(this, "Invalid username or password");
+                } else {
+                    if (tempU.getUserType().equals("M")){
+                        JOptionPane.showMessageDialog(this, "Manager Login Successful");
+                        dispose();
+                        new ManagerAccountFrame(userText);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Customer Login Successful");
+                        dispose();
+                        new CustomerMainMenuFrame(userText);
+                    }
+                }
             }
-
         }
 
         //showPassword JCheckBox

@@ -1,12 +1,11 @@
-public class BankManager {
+public class BankManager extends User{
     private String managerName;
     private int managerId;
     private double profit;
 
-    public BankManager(String managerName, int managerId, double profit){
-        this.managerId = managerId;
-        this.managerName = managerName;
-        this.profit = profit;
+    public BankManager(String managerName, String managerPwd, int managerId){
+        super("M", managerName,managerPwd,managerId);
+        profit = 0;
     }
 
     public void checkCustomer(int customerId) {

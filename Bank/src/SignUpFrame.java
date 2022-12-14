@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -20,6 +21,8 @@ public class SignUpFrame extends JFrame implements ActionListener {
     private final JPasswordField password;
     private final JButton createButton;
     private final JButton resetButton;
+
+    private int userId = 0;
 
     SignUpFrame(){
         setTitle("Sign Up");
@@ -127,16 +130,17 @@ public class SignUpFrame extends JFrame implements ActionListener {
                 password.setText("");
                 passwordConfirm.setText("");
             }
-//            TODO
-//            else if(!Database.checkUserExist(userName).isEmpty()){
-//                JOptionPane.showMessageDialog(this, "User already exists. Please enter a different username");
-//                username.setText("");
-//            }
+            else if (FileHandler.checkUser(userName) != null){
+                JOptionPane.showMessageDialog(this, "User already exists. Please enter a different username");
+                username.setText("");
+            }
             else{
-//                TODO
 //                need a class of signup, the class can add firstname, lastname, userName, usertype:CUSTOMER, pw, pc
 //                need a class of signup to adduser, which has a func of adduser, so it can be called here.
-
+                Customer tempC = new Customer(userName,pw,userId, firstname, lastname);
+                userId++;
+                FileHandler.addUser(tempC);
+                FileHandler.writeFiles();
                 JOptionPane.showMessageDialog(this,
                         "Account created! Please login to your account");
                 dispose();

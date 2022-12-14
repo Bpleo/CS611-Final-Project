@@ -1,16 +1,15 @@
 import java.util.*;
 
-public class Customer {
-    private String customerName;
-    private String pwd;
-    private int customerId;
+public class Customer extends User{
     private ArrayList<Account> accounts;
+    private String firstName;
+    private String lastName;
 
-    public Customer(String name, String pwd, int id){
-        customerName = name;
-        this.pwd = pwd;
-        customerId = id;
+    public Customer(String name, String pwd, int id, String firstName, String lastName){
+        super("C",name,pwd,id);
         accounts = new ArrayList<>();
+        setFirstName(firstName);
+        setLastName(lastName);
     }
 
     public void addAccount(Account account){
@@ -28,23 +27,19 @@ public class Customer {
         return accounts;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

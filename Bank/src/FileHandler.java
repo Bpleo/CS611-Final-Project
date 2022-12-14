@@ -5,48 +5,48 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.time.temporal.ChronoUnit;
-
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class FileHandler {
-    private ArrayList<CheckingAccount> checkingAccountList;
-    private ArrayList<SavingAccount> savingAccountList;
-    private ArrayList<LoanAccount> loanAccountList;
-    private ArrayList<SecurityAccount> securityAccountList;
-    private ArrayList<Customer> customerList;
+    private static ArrayList<CheckingAccount> checkingAccountList = new ArrayList<>();
+    private static ArrayList<SavingAccount> savingAccountList = new ArrayList<>();
+    private static ArrayList<LoanAccount> loanAccountList = new ArrayList<>();
+    private static ArrayList<SecurityAccount> securityAccountList = new ArrayList<>();
+    private static ArrayList<User> userList = new ArrayList<>();
     //If run in terminal, change the front . to ..
-    private final String dirPath = "." + File.pathSeparator + "csvFile" + File.pathSeparator;
-
-    public FileHandler(){
-        checkingAccountList = new ArrayList<>();
-        savingAccountList = new ArrayList<>();
-        loanAccountList = new ArrayList<>();
-        securityAccountList = new ArrayList<>();
-        customerList = new ArrayList<>();
+    private static final String dirPath = "." + File.separator + "csvFile" + File.separator;
+    public static void addUser(User user){
+        userList.add(user);
     }
 
-    public ArrayList<CheckingAccount> getCheckingAccountList() {
+    public static User checkUser(String userName){
+        for (int i = 0; i < userList.size(); i++)
+            if (userList.get(i).getUserName().equals(userName))
+                return userList.get(i);
+        return null;
+    }
+
+    public static ArrayList<User> getUserList() {
+        return userList;
+    }
+
+    public static ArrayList<CheckingAccount> getCheckingAccountList() {
         return checkingAccountList;
     }
 
-    public ArrayList<Customer> getCustomerList() {
-        return customerList;
-    }
-
-    public ArrayList<LoanAccount> getLoanAccountList() {
+    public static ArrayList<LoanAccount> getLoanAccountList() {
         return loanAccountList;
     }
 
-    public ArrayList<SavingAccount> getSavingAccountList() {
+    public static ArrayList<SavingAccount> getSavingAccountList() {
         return savingAccountList;
     }
 
-    public ArrayList<SecurityAccount> getSecurityAccountList() {
+    public static ArrayList<SecurityAccount> getSecurityAccountList() {
         return securityAccountList;
     }
 
-    public void readFiles() {
+    public static void readFiles() {
         readChecking();
         readSaving();
         readLoan();
@@ -54,7 +54,7 @@ public class FileHandler {
         readCustomer();
     }
 
-    private void readChecking(){
+    private static void readChecking(){
         try{
             Scanner in = new Scanner(new File(dirPath + "checking.csv"));
             while (in.hasNext()){
@@ -73,7 +73,7 @@ public class FileHandler {
         }
     }
 
-    private void readSaving(){
+    private static void readSaving(){
         try{
             Scanner in = new Scanner(new File(dirPath + "saving.csv"));
             while (in.hasNext()){
@@ -98,7 +98,7 @@ public class FileHandler {
         }
     }
 
-    private void readLoan(){
+    private static void readLoan(){
         try{
             Scanner in = new Scanner(new File(dirPath + "loan.csv"));
             while (in.hasNext()){
@@ -123,7 +123,7 @@ public class FileHandler {
         }
     }
 
-    private void readSecurity(){
+    private static void readSecurity(){
         try{
             Scanner in = new Scanner(new File(dirPath + "security.csv"));
             while (in.hasNext()){
@@ -155,15 +155,20 @@ public class FileHandler {
         }
     }
 
-    private void readCustomer(){
+    private static void readCustomer(){
         try{
             Scanner in = new Scanner(new File(dirPath + "customer.csv"));
             while(in.hasNext()){
                 String[] info = in.nextLine().split(",");
-                int id = Integer.parseInt(info[0]);
-                Customer tempC = new Customer(info[1],info[2],id);
-                loadAccounts(tempC);
-                customerList.add(tempC);
+                String type = info[0];
+                int id = Integer.parseInt(info[1]);
+                User tempC;
+                if (type.equals("C")) {
+                    tempC = new Customer(info[2], info[3], id,info[4],info[5]);
+                    loadAccounts((Customer) tempC);
+                }else
+                    tempC = new BankManager(info[2],info[3],id);
+                userList.add(tempC);
             }
         }catch (FileNotFoundException e){
             System.out.println("Error Occurred");
@@ -171,22 +176,22 @@ public class FileHandler {
         }
     }
 
-    private void loadAccounts(Customer customer){
+    private static void loadAccounts(Customer customer){
         for (int i = 0; i < checkingAccountList.size(); i++)
-            if (checkingAccountList.get(i).getCustomerId() == customer.getCustomerId())
+            if (checkingAccountList.get(i).getCustomerId() == customer.getUserId())
                 customer.addAccount(checkingAccountList.get(i));
         for (int i = 0; i < savingAccountList.size(); i++)
-            if (savingAccountList.get(i).getCustomerId() == customer.getCustomerId())
+            if (savingAccountList.get(i).getCustomerId() == customer.getUserId())
                 customer.addAccount(savingAccountList.get(i));
         for (int i = 0; i < loanAccountList.size(); i++)
-            if (loanAccountList.get(i).getCustomerId() == customer.getCustomerId())
+            if (loanAccountList.get(i).getCustomerId() == customer.getUserId())
                 customer.addAccount(loanAccountList.get(i));
         for (int i = 0; i < securityAccountList.size(); i++)
-            if (securityAccountList.get(i).getCustomerId() == customer.getCustomerId())
+            if (securityAccountList.get(i).getCustomerId() == customer.getUserId())
                 customer.addAccount(securityAccountList.get(i));
     }
 
-    public void writeFiles() {
+    public static void writeFiles() {
         writeCustomer();
         writeChecking();
         writeSaving();
@@ -194,15 +199,20 @@ public class FileHandler {
         writeSecurity();
     }
 
-    private void writeCustomer() {
+    private static void writeCustomer() {
         try{
             File temp = new File(dirPath + "customer.csv");
             if (!temp.exists())
                 temp.createNewFile();
             PrintWriter out = new PrintWriter(temp);
-            for (int i = 0; i < customerList.size(); i++){
-                Customer tempC = customerList.get(i);
-                out.println(tempC.getCustomerId() + "," + tempC.getCustomerName() + "," + tempC.getPwd());
+            for (int i = 0; i < userList.size(); i++){
+                User tempC = userList.get(i);
+                if (tempC.getUserType().equals("M"))
+                    out.println(tempC.getUserType() + "," + tempC.getUserId() + "," + tempC.getUserName() + "," + tempC.getUserPwd());
+                else {
+                    Customer tempCu = (Customer) tempC;
+                    out.println(tempC.getUserType() + "," + tempC.getUserId() + "," + tempC.getUserName() + "," + tempC.getUserPwd() + "," + tempCu.getFirstName() +","+tempCu.getLastName());
+                }
             }
             out.close();
         }catch (IOException e){
@@ -211,7 +221,7 @@ public class FileHandler {
         }
     }
 
-    private void writeChecking() {
+    private static void writeChecking() {
         try{
             File temp = new File(dirPath + "checking.csv");
             if (!temp.exists())
@@ -237,7 +247,7 @@ public class FileHandler {
         }
     }
 
-    private void writeSaving() {
+    private static void writeSaving() {
         try{
             File temp = new File(dirPath + "saving.csv");
             if (!temp.exists())
@@ -264,7 +274,7 @@ public class FileHandler {
         }
     }
 
-    private void writeLoan() {
+    private static void writeLoan() {
         try{
             File temp = new File(dirPath + "loan.csv");
             if (!temp.exists())
@@ -282,7 +292,7 @@ public class FileHandler {
         }
     }
 
-    private void writeSecurity(){
+    private static void writeSecurity(){
         try{
             File temp = new File(dirPath + "security.csv");
             if (!temp.exists())
