@@ -28,6 +28,7 @@ public class CreateAccountFrame extends JFrame {
         comboBoxAccountType.addItem(AccountType.CHECKING);
         comboBoxAccountType.addItem(AccountType.SAVING);
         comboBoxAccountType.addItem(AccountType.SECURITY);
+        comboBoxAccountType.addItem(AccountType.LOAN);
 
         comboBoxCurrencyType.addItem(CurrencyType.CNY);
         comboBoxCurrencyType.addItem(CurrencyType.INR);

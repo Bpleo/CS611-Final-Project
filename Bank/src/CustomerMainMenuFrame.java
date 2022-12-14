@@ -17,7 +17,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
     private final JButton logoutButton;
     private final JButton stockButton;
     private int customerID;
-    //private final User user; need a user class
+    private Customer user;
 
     public CustomerMainMenuFrame(String username) {
         setTitle("Customer Main Menu");
@@ -42,9 +42,8 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         addActionEvent();
         this.username = username;
         userLabel.setText("Username: " + this.username);
-        //TODO
-        //this.customerID = here need to get userid from database
-        //user = here need to get a user object from username, which retrieves user by username
+        user = (Customer) FileHandler.checkUser(username);
+        this.customerID = user.getUserId();
     }
 
 
@@ -101,7 +100,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == accountButton) {
 //            TODO
-//            new ViewCustomerAccountsFrame( here need to get userid );
+            new ViewCustomerAccountsFrame(customerID);
         }
         if (e.getSource() == checkTransactionButton) {
 //            TODO
@@ -110,7 +109,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == createAccountButton) {
 //            TODO
-//            new CreateAccountFrame(this.user);
+            new CreateAccountFrame(this.user);
         }
         if (e.getSource() == closeAccountButton) {
 //            TODO

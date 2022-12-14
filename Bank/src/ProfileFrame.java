@@ -20,6 +20,7 @@ public class ProfileFrame extends JFrame implements ActionListener {
     private final JButton returnButton;
     private final JButton resetPasswordButton;
     private final JTextField newPwdField;
+    private Customer customer;
 
 
     public ProfileFrame(String username) {
@@ -30,11 +31,12 @@ public class ProfileFrame extends JFrame implements ActionListener {
         setResizable(false);
         container = getContentPane();
         this.username = username;
-        firstNameLabel = new JLabel("First Name: ");
-        lastNameLabel = new JLabel("Last Name: ");
-        userLabel = new JLabel("Username: ");
-        idLabel = new JLabel("User Id: ");
-        passwordLabel = new JLabel("Password: ");
+        customer = (Customer) FileHandler.checkUser(username);
+        firstNameLabel = new JLabel("First Name: " + customer.getFirstName());
+        lastNameLabel = new JLabel("Last Name: " + customer.getLastName());
+        userLabel = new JLabel("Username: " + username);
+        idLabel = new JLabel("User Id: " + customer.getUserId());
+        passwordLabel = new JLabel("Password: " + customer.getUserPwd());
         firstName = new JLabel();
         lastName = new JLabel();
         uname = new JLabel();
@@ -105,6 +107,8 @@ public class ProfileFrame extends JFrame implements ActionListener {
             }
             else{
                 //TODO: update Password in database
+                customer.setUserPwd(newPwd);
+                FileHandler.writeFiles();
                 JOptionPane.showMessageDialog(this, "Password Updated");
                 //TODO: update Password in this frame
                 //password.setText( need to show new password here );
@@ -118,14 +122,14 @@ public class ProfileFrame extends JFrame implements ActionListener {
     }
 
     //Preview
-    public static void main(String[] args){
-        ProfileFrame frame=new ProfileFrame("1");
-        frame.setTitle("User Profile");
-        frame.setLocation(10,10);
-        frame.setSize(1000,800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args){
+//        ProfileFrame frame=new ProfileFrame("1");
+//        frame.setTitle("User Profile");
+//        frame.setLocation(10,10);
+//        frame.setSize(1000,800);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+//    }
 
 
 }

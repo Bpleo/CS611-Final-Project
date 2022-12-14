@@ -5,11 +5,17 @@ public class Customer extends User{
     private String firstName;
     private String lastName;
 
+    private ArrayList<Transaction> transactions;
+
     public Customer(String name, String pwd, int id, String firstName, String lastName){
         super("C",name,pwd,id);
         accounts = new ArrayList<>();
         setFirstName(firstName);
         setLastName(lastName);
+    }
+
+    public void makeTransaction(){
+
     }
 
     public void addAccount(Account account){

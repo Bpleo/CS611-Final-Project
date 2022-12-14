@@ -26,6 +26,13 @@ public class FileHandler {
         return null;
     }
 
+    public static User getUserById(int userId){
+        for (int i = 0; i < userList.size(); i++)
+            if (userList.get(i).getUserId() == userId)
+                return userList.get(i);
+        return null;
+    }
+
     public static ArrayList<User> getUserList() {
         return userList;
     }
