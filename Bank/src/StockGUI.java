@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.*;
 
 public class StockGUI extends JFrame {
@@ -17,6 +16,8 @@ public class StockGUI extends JFrame {
     private JLabel stockAmount;
     private JTextField amount;
     private JButton cancelButton;
+    private JTextField accountBalanceTextField;
+    private JTextField textField1;
 
     private int getAmount(){
         return Integer.valueOf(amount.getText());
@@ -24,6 +25,12 @@ public class StockGUI extends JFrame {
     private String getStockName() { return stockName.getText();}
 
     public StockGUI(int user) {
+        // Simulate the stock market price movements
+        StockMarket.simulateStockMarket();
+
+        accountBalanceTextField.setText("0.0");
+        textField1.setText("0.0");
+
         setContentPane(Stock);
         setTitle("Stock");
         setSize(1000, 800);
@@ -33,12 +40,18 @@ public class StockGUI extends JFrame {
         SecurityAccount stockAccount = getStockAccount(user);
         ArrayList<Stock> stockHoldList;
 
+
         if(stockAccount != null) {
             // Loop through list of stock held in portfolio
             for (Stock stock: stockAccount.getStockListOwned()){
-                holdStocks.append(stock.getStockName()+" "+stock.getStockQuantity()+ "\n\n");
+                holdStocks.append(stock.getStockName()+" :: Quantity: "+stock.getStockQuantity()
+                        +" BuyPrice: "+stock.getStockBuyPrice()+"\n\n");
             }
 
+            // Set stock account balance
+            accountBalanceTextField.setText(String.valueOf(stockAccount.getStockBalance()));
+            // Set stock account holding portfolio value
+            textField1.setText(String.valueOf(stockAccount.getStockHoldingValue()));
         }
         else{
             JOptionPane.showMessageDialog(Stock, "Please create a stock account");
@@ -48,7 +61,7 @@ public class StockGUI extends JFrame {
         // Get list of stocks available in Stock Market
         // Add it to the list
         for (Stock stock : StockMarket.stockMarketList){
-            stockList.append(stock.getStockName()+" "+stock.getStockPrice()+"\n\n");
+            stockList.append(stock.getStockName()+" :: Price: "+stock.getStockPrice()+"\n\n");
         }
 
         amount.addKeyListener(new KeyAdapter() {

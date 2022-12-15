@@ -78,9 +78,9 @@ public class Stock {
         // If change generated is 1, increase the price
         // If change generated is 2, decrease the price
         if ( change == 1 ){
-            stockPrice += stockPrice*swing;
+            stockPrice += stockPrice*swing/100;
         } else{
-            stockPrice -= stockPrice*swing;
+            stockPrice -= stockPrice*swing/100;
             // If decrease is reduces stock price below 0, set it to 1
             if (stockPrice <= 0)
                 stockPrice = 1;
