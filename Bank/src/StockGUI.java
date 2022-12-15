@@ -75,8 +75,7 @@ public class StockGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SecurityAccount stockAccount = getStockAccount(user);
-//                TODO
-//                get the list of stocks
+
                 if(stockName.getText().isEmpty()){
                     JOptionPane.showMessageDialog(Stock, "Please enter the stock name");
                 }
@@ -119,11 +118,25 @@ public class StockGUI extends JFrame {
                 else if(stockName.getText().isEmpty()){
                     JOptionPane.showMessageDialog(Stock, "Please enter the stock name");
                 }
-//                TODO
-//                else if( here do the operator sell stock, alse need the parameters:getStockname(),getAmount() func above){
-//                    JOptionPane.showMessageDialog(Stock, "Sold!");
-//                    dispose();
-//                }
+                // Check if valid stock name entered
+                else if(StockMarket.getStockByName(getStockName())!=null){
+                    // fetch the stock from Stock Market
+                    Stock sellStock = StockMarket.getStockByName(getStockName());
+
+                    // Sell Trade is successful
+                    if(stockAccount.sellTrade(sellStock,getAmount())>0){
+                        JOptionPane.showMessageDialog(Stock, "Stocks Sold!");
+                        dispose();
+                    }else {
+                        // If sell Trade fails
+                        JOptionPane.showMessageDialog(Stock, "Could not sell stocks");
+                    }
+
+                }else{
+                    // If invalid stock name entered
+                    JOptionPane.showMessageDialog(Stock, "Please enter a valid stock name");
+                }
+
             }
         });
 
