@@ -14,6 +14,8 @@ public class Transfer extends JFrame {
     private JButton cancelButton;
     private JTextField amount;
     private JPanel transferPanel;
+    private JComboBox senderCurrencyType;
+    private JComboBox receiverCurrencyType;
 
     private double getAmount(){
         return Double.parseDouble(amount.getText());

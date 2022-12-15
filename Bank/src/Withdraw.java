@@ -13,6 +13,7 @@ public class Withdraw extends JFrame {
     private JButton withdrawButton;
     private JPanel WithdrawPanel;
     private JComboBox<String> checking;
+    private JComboBox currencyType;
 
     private double getWithdraw(){
         return Double.parseDouble(amount.getText());
