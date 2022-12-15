@@ -73,6 +73,10 @@ public class LoanAccount extends Account{
         return loanInterest;
     }
 
+    public void setLoanInterest(double interst) {
+        this.loanInterest = interst;
+    } 
+
     public LocalDate getPaidDate() {
         return paidDate;
     }
