@@ -17,7 +17,7 @@ public class StockMarket {
         return stockMarketList;
     }
 
-    public boolean addStockToMarket(Stock stock){
+    public static boolean addStockToMarket(Stock stock){
         /*
         This method takes a stock as argument.
         Loop through all stock in stock market list.
@@ -40,7 +40,7 @@ public class StockMarket {
         return true;
     }
 
-    public boolean removeStockFromMarket(Stock stock){
+    public static boolean removeStockFromMarket(Stock stock){
         /*
         This method takes a stock as argument.
         Loop through all stock in stock market list.

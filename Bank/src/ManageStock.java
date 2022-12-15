@@ -24,12 +24,11 @@ public class ManageStock extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
 
-//        TODO
-//        get the list of stocks
-//        new stock here, make it = stocks in list(below)
-//        for(Stock stock : List){
-//            stockList.append( here need stocks name + " "+ here need stocks price + "\n\n");
-//        }
+        // Get list of stocks available in Stock Market
+        // Add it to the list
+        for (Stock stock : StockMarket.stockMarketList){
+            stockList.append(stock.getStockName()+" :: Price: "+stock.getStockPrice()+"\n\n");
+        }
 
 
         cancelButton.addActionListener(new ActionListener() {
@@ -42,12 +41,25 @@ public class ManageStock extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                TODO
-//                here need do the operator to add stock, also need to use the parameters: getStockname(),getPrice() funcs above
-//                get the list of current stock list info
-//                save current stock list info to CSV
-                JOptionPane.showMessageDialog(ManageStock, "stock added");
-                dispose();
+
+                // check for valid input field values
+                if(price.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(ManageStock, "Please enter the stock price");
+                }
+                else if(stockName.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(ManageStock, "Please enter the stock name");
+                }else {
+                    // Create new stock
+                    Stock newStock = new Stock(StockMarket.stockMarketList.size()+1,getStockname(),getPrice(),99);
+
+                    // add to stock market list
+                    if(StockMarket.addStockToMarket(newStock)) {
+                        JOptionPane.showMessageDialog(ManageStock, "stock added");
+                        dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(ManageStock, "stock not added");
+                    }
+                }
             }
         });
     }
