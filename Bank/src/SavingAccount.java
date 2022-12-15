@@ -8,7 +8,7 @@ public class SavingAccount extends Account{
     private HashMap<CurrencyType, SavingDeposit> balance;
 
     //when created, must deposit something in it.
-    public SavingAccount(int accountHolderId, int customerId) {
+    public SavingAccount(long accountHolderId, int customerId) {
         super(AccountType.SAVING, accountHolderId, customerId);
         balance = new HashMap<>();
         this.interestSaving = 0;

@@ -7,7 +7,7 @@ public class LoanAccount extends Account{
     private LocalDate loanDate;
     private LocalDate paidDate;
 
-    public LoanAccount(int accountId, int customerId) {
+    public LoanAccount(long accountId, int customerId) {
         super(AccountType.LOAN, accountId, customerId);
     }
     //Must call when create a loan account

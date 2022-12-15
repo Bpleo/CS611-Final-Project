@@ -20,7 +20,6 @@ public class CloseAccount extends JFrame {
         return null;
     }
 
-    //TODO:change customer to user class
     public CloseAccount(Customer user){
         setTitle("Close Account");
         setContentPane(closeAccountPanel);
@@ -29,7 +28,7 @@ public class CloseAccount extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         ArrayList<Account> accountList = user.getAccounts();
         for (int i = 0; i < accountList.size(); i++)
-            accounts.addItem(i + " " + accountList.get(i).getAccountId() + " " + accountList.get(i).getType());
+            accounts.addItem(accountList.get(i).getAccountId() + " " + accountList.get(i).getType());
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -41,7 +40,7 @@ public class CloseAccount extends JFrame {
         closeAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int accountId = Integer.parseInt(accounts.getSelectedItem().toString().split(" ")[1]);
+                long accountId = Long.parseLong(accounts.getSelectedItem().toString().split(" ")[0]);
                 for (int i = 0; i < accountList.size(); i++){
                     if (accountList.get(i).getAccountId() == accountId){
                         CheckingAccount temp = (CheckingAccount) checkAccount(accountList,AccountType.CHECKING);
@@ -58,7 +57,6 @@ public class CloseAccount extends JFrame {
 
                     }
                 }
-//                TODO factory account id needs to be unique
             }
         });
 

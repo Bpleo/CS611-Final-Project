@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class CheckingAccount extends Account{
     private LinkedHashMap<CurrencyType, Double> deposit;
-    public CheckingAccount(int accountHolderId, int customerId) {
+    public CheckingAccount(long accountHolderId, int customerId) {
         super(AccountType.CHECKING, accountHolderId,  customerId);
         deposit = new LinkedHashMap<>();
     }

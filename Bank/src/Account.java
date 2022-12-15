@@ -1,9 +1,9 @@
 public abstract class Account {
     private AccountType type;
-    private int accountId;
+    private long accountId;
     private int customerId;
 
-    public Account(AccountType type, int accountId, int customerId){
+    public Account(AccountType type, long accountId, int customerId){
         this.type = type;
         this.accountId = accountId;
         this.customerId = customerId;
@@ -20,7 +20,7 @@ public abstract class Account {
         return customerId;
     }
 
-    public int getAccountId() {
+    public long getAccountId() {
         return accountId;
     }
 }

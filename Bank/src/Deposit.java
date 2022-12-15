@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Deposit extends JFrame {
     private JTextField depositAmount;
     private JButton cancelButton;
     private JButton depositButton;
-    private JComboBox<String> checking;
+    private JComboBox<String> accountList;
 
     public Deposit(Customer user){
         setContentPane(DepositPanel);
@@ -20,6 +21,9 @@ public class Deposit extends JFrame {
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
+        ArrayList<Account> accounts = user.getAccounts();
+        for (Account account : accounts)
+            accountList.addItem(account.getAccountId() + " " + account.getType());
 //        TODO
 //        need to get listof user accounts through userid
 //        new account, make it = accounts in the list
@@ -58,6 +62,11 @@ public class Deposit extends JFrame {
                 else if(getDeposit() < 100.0){
                     JOptionPane.showMessageDialog(DepositPanel, "Deposit cannot less than 100");
                 }else{
+                    int accountId = Integer.parseInt(accountList.getSelectedItem().toString().split(" ")[0]);
+//                    for (Account account : accounts){
+//                        if (account.getAccountId() == accountId)
+////                            account.deposit();
+
 //                    TODO
 //                    need to get list of accounts
 //                    new account, make it = accounts in the list

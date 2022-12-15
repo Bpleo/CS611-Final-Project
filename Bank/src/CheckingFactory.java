@@ -13,9 +13,14 @@ public class CheckingFactory implements AccountFactoryInterface {
         this.accountHolderId = accountNumber;
     }
 
+    private long getAccountId(){
+        long smallest = 1000000000000000L;
+        long biggest = 9999999999999999L;
+        return (long)(Math.random()*(biggest - smallest + 1)+smallest);
+    }
+
     @Override
     public Account createAccount () {
-
-        return new CheckingAccount(accountHolderId, customerID);
+        return new CheckingAccount(getAccountId(), customerID);
     }
 }

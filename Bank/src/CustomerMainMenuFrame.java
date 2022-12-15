@@ -99,7 +99,6 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
             new ProfileFrame(username);
         }
         if (e.getSource() == accountButton) {
-//            TODO
             new ViewCustomerAccountsFrame(customerID);
         }
         if (e.getSource() == checkTransactionButton) {
@@ -108,11 +107,10 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
 //            new ViewTransactions(here need the transaction instance)
         }
         if (e.getSource() == createAccountButton) {
-//            TODO
             new CreateAccountFrame(this.user);
         }
         if (e.getSource() == closeAccountButton) {
-//            TODO
+//            TODO factory account id needs to be unique
             new CloseAccount(this.user);
         }
         if (e.getSource() == loanButton) {
@@ -121,7 +119,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == makeTransactionButton) {
 //            TODO
-//            new ChooseTransactions(user);
+            new ChooseTransactions(user);
         }
         if(e.getSource() == stockButton){
 //            TODO

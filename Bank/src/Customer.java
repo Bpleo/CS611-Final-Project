@@ -22,7 +22,7 @@ public class Customer extends User{
         accounts.add(account);
     }
 
-    public void removeAccount(int accoundId){
+    public void removeAccount(long accoundId){
         for (int i = 0; i < accounts.size(); i++){
             if (accounts.get(i).getAccountId() == accoundId)
                 accounts.remove(i);
