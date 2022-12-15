@@ -30,7 +30,7 @@ public class StockGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
 
-        SecurityAccount stockAccount = getStockAccount(user);
+        SecurityAccount stockAccount = getStockAccount(user + "");
         List<Stock> stockHoldList;
         if(stockAccount != null) {
 //            TODO
@@ -72,7 +72,7 @@ public class StockGUI extends JFrame {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SecurityAccount stockAccount = getStockAccount(user);
+                SecurityAccount stockAccount = getStockAccount(user + "");
 //                TODO
 //                get the list of stocks
                 if(stockName.getText().isEmpty()){
@@ -105,7 +105,7 @@ public class StockGUI extends JFrame {
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SecurityAccount stockAccount = getStockAccount(user);
+                SecurityAccount stockAccount = getStockAccount(user + "");
 
                 if(amount.getText().isEmpty()){
                     JOptionPane.showMessageDialog(Stock, "Please enter the stock amount");

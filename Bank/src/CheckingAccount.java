@@ -19,20 +19,20 @@ public class CheckingAccount extends Account{
 
     @Override
     public boolean withdraw(CurrencyType currency, double amount) {
-        if (deposit.containsKey(currency))
+        if (currency == CurrencyType.USD){
+            if (deposit.containsKey(CurrencyType.USD)){
+                deposit.put(currency, deposit.get(currency) - amount);
+                return true;
+            } else {
+                CurrencyType temp = deposit.keySet().stream().findFirst().get();
+                double usdEquiAmount = Exchange.exchangeCurrency(CurrencyType.USD, temp, amount);
+                return withdraw(temp, usdEquiAmount);
+            }
+        } else if (deposit.containsKey(currency))
             if (deposit.get(currency) < amount)
                 return false;
             else {
-                if (currency == CurrencyType.USD) {
-                    if (deposit.containsKey(CurrencyType.USD))
-                        deposit.put(currency, deposit.get(currency) - amount);
-                    else {
-                        Optional<CurrencyType> temp = deposit.keySet().stream().findFirst();
-                        double usdAmount = Exchange.exchangeCurrency(CurrencyType.USD,temp.get(),amount);
-                        return withdraw(temp.get(),amount);
-                    }
-                }else
-                    deposit.put(currency,deposit.get(currency)-amount);
+                deposit.put(currency,deposit.get(currency)-amount);
                 return true;
             }
         else

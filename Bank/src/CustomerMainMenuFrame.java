@@ -113,7 +113,7 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == closeAccountButton) {
 //            TODO
-//            new CloseAccount(this.user);
+            new CloseAccount(this.user);
         }
         if (e.getSource() == loanButton) {
 //            TODO

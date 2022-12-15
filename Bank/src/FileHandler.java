@@ -55,6 +55,35 @@ public class FileHandler {
         }
     }
 
+    public static void removeAccount(Account account) {
+        switch (account.getType()){
+            case LOAN:
+                for (int i = 0; i < loanAccountList.size(); i++)
+                    if (loanAccountList.get(i).getAccountId() == account.getAccountId())
+                        loanAccountList.remove(i);
+                writeLoan();
+                break;
+            case SAVING:
+                for (int i = 0; i < savingAccountList.size(); i++)
+                    if (savingAccountList.get(i).getAccountId() == account.getAccountId())
+                        savingAccountList.remove(i);
+                writeSaving();
+                break;
+            case CHECKING:
+                for (int i = 0; i < checkingAccountList.size(); i++)
+                    if (checkingAccountList.get(i).getAccountId() == account.getAccountId())
+                        checkingAccountList.remove(i);
+                writeChecking();
+                break;
+            case SECURITY:
+                for (int i = 0; i < securityAccountList.size(); i++)
+                    if (securityAccountList.get(i).getAccountId() == account.getAccountId())
+                        securityAccountList.remove(i);
+                writeSecurity();
+                break;
+        }
+    }
+
     public static ArrayList<User> getUserList() {
         return userList;
     }
