@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.List;
 
 public class StockGUI extends JFrame {
@@ -22,7 +23,7 @@ public class StockGUI extends JFrame {
     }
     private String getStockname() { return stockName.getText();}
 
-    public StockGUI(Customer user) {
+    public StockGUI(int user) {
         setContentPane(Stock);
         setTitle("Stock");
         setSize(1000, 800);
@@ -123,17 +124,35 @@ public class StockGUI extends JFrame {
 
     }
 
-    private SecurityAccount getStockAccount(Customer user) {
+    private SecurityAccount getStockAccount(String userName) {
+        /*
+        Get list of Customer accounts through username
+        new account, make it = accounts in list
+        Returns the Security account from among the users accounts
+         */
         SecurityAccount stockAccount = null;
-//        TODO
-//        get list of users accounts through user id
-//        new account, make it = acocunts in list
-//        for (Account account : accounts) {
-//            if (account instanceof SecurityAccount) {
-//                stockAccount = (SecurityAccount) account;
-//            }
-//        }
+
+        // Fetch the customer
+        Customer customer = (Customer) FileHandler.checkUser(userName);
+
+        for (Account account : customer.getAccounts()){
+            if(account instanceof SecurityAccount){
+                stockAccount = (SecurityAccount) account;
+                return stockAccount;
+            }
+        }
+
+
         return stockAccount;
+    }
+
+    public static void main(String[] args){
+        StockGUI frame=new StockGUI(1);
+        frame.setTitle("Stock Portfolio");
+        frame.setLocation(10,10);
+        frame.setSize(1000,800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
 }
