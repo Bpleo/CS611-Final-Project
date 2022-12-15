@@ -111,7 +111,7 @@ public class StockGUI extends JFrame {
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SecurityAccount stockAccount = getStockAccount(user + "");
+                SecurityAccount stockAccount = getStockAccount(user);
 
                 if(amount.getText().isEmpty()){
                     JOptionPane.showMessageDialog(Stock, "Please enter the stock amount");
