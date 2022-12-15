@@ -76,7 +76,7 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         logoutButton.addActionListener(this);
     }
 
-//TODO
+    //TODO
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == profileButton) {
@@ -89,10 +89,12 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
 //            TODO
 //            get all the transactions info
 //            new ViewTransactions( transactions );
+        
         }
         if (e.getSource() == viewProfitButton) {
 //            TODO
 //            JOptionPane.showMessageDialog(this, "Total Profit: " + here need to get profit);
+
         }
         if (e.getSource() == stocksButton) {
 //            TODO

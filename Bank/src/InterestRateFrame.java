@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 
 public class InterestRateFrame extends JFrame {
 
@@ -17,6 +19,9 @@ public class InterestRateFrame extends JFrame {
     private JButton backButton;
     private JLabel title;
 
+// add savings interest rate
+// loanaccountlist
+    
     public InterestRateFrame(){
         setTitle("Interest Rate Form");
         setContentPane(interestPanel);
@@ -30,6 +35,17 @@ public class InterestRateFrame extends JFrame {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
 
+                if(!(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE) || c==KeyEvent.VK_DELETE)) {
+                    getToolkit().beep();
+                    e.consume();
+                }
+                super.keyTyped(e);
+            }
+        });
+
+        saInterest.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
                 if(!(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE) || c==KeyEvent.VK_DELETE)) {
                     getToolkit().beep();
                     e.consume();
@@ -53,6 +69,22 @@ public class InterestRateFrame extends JFrame {
                 }
                 else {
                     Double interest = Double.parseDouble(loanInterest.getText().toString());
+//                    TODO
+//                    need set the loan interest here
+                    ArrayList<LoanAccount> loanAccountLists = FileHandler.getLoanAccountList();
+                    JOptionPane.showMessageDialog(interestPanel, "Interest rate set successfully");
+                }
+            }
+        });
+
+        saInterestButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(saInterest.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(interestPanel, "Please enter the rate of savings interest");
+                }
+                else {
+                    Double interest = Double.parseDouble(saInterest.getText().toString());
 //                    TODO
 //                    need set the loan interest here
                     JOptionPane.showMessageDialog(interestPanel, "Interest rate set successfully");
