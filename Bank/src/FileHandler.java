@@ -286,6 +286,7 @@ public class FileHandler {
         writeChecking();
         writeSaving();
         writeLoan();
+        writeStockMarket();
         writeSecurity();
     }
 
@@ -407,6 +408,23 @@ public class FileHandler {
         }
     }
 
-    
+    private static void writeStockMarket(){
+        try{
+            File temp = new File(dirPath + "stockmarket.csv");
+            if (!temp.exists())
+                temp.createNewFile();
+            PrintWriter out = new PrintWriter(temp);
+            for (int i = 0; i < StockMarket.stockMarketList.size(); i++){
+                Stock tempS = StockMarket.stockMarketList.get(i);
+                out.print(tempS.getStockId() + "," + tempS.getStockName() + "," + tempS.getStockPrice());
+                out.print("," + tempS.getStockBuyPrice() + "," + tempS.getStockQuantity());
+                out.println();
+            }
+            out.close();
+        }catch (IOException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
+    }
 
 }
