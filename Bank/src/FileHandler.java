@@ -17,6 +17,7 @@ public class FileHandler {
     private static final String dirPath = "." + File.separator + "csvFile" + File.separator;
     public static void addUser(User user){
         userList.add(user);
+        writeCustomer();
     }
 
     public static User checkUser(String userName){
@@ -31,6 +32,27 @@ public class FileHandler {
             if (userList.get(i).getUserId() == userId)
                 return userList.get(i);
         return null;
+    }
+
+    public static void addAccount(Account account){
+        switch (account.getType()){
+            case LOAN:
+                loanAccountList.add((LoanAccount)  account);
+                writeLoan();
+                break;
+            case SAVING:
+                savingAccountList.add((SavingAccount) account);
+                writeSaving();
+                break;
+            case CHECKING:
+                checkingAccountList.add((CheckingAccount) account);
+                writeChecking();
+                break;
+            case SECURITY:
+                securityAccountList.add((SecurityAccount) account);
+                writeSecurity();
+                break;
+        }
     }
 
     public static ArrayList<User> getUserList() {
@@ -70,7 +92,8 @@ public class FileHandler {
                 int aId = Integer.parseInt(info[1]);
                 CheckingAccount tempC = new CheckingAccount(aId, cId);
                 for (int i = 2; i < info.length; i+=2){
-                    tempC.deposit(CurrencyType.valueOf(info[i]),Double.parseDouble(info[i+1]));
+                    if (!info[i+1].equals(" "))
+                        tempC.deposit(CurrencyType.valueOf(info[i]),Double.parseDouble(info[i+1]));
                 }
                 checkingAccountList.add(tempC);
             }
@@ -91,11 +114,13 @@ public class FileHandler {
                 SavingAccount tempS = new SavingAccount(aId, cId);
                 tempS.setInterestSaving(interestRate);
                 for (int i = 3; i < info.length; i+=3){
-                    CurrencyType tempC = CurrencyType.valueOf(info[i]);
-                    double amount = Double.parseDouble(info[i+1]);
-                    LocalDate depositDate = LocalDate.parse(info[i+2]);
-                    SavingDeposit tempSd = new SavingDeposit(depositDate,amount);
-                    tempS.deposit(tempC,tempSd);
+                    if (!(info[i+1].equals(" ") && info[i+2].equals(" "))) {
+                        CurrencyType tempC = CurrencyType.valueOf(info[i]);
+                        double amount = Double.parseDouble(info[i + 1]);
+                        LocalDate depositDate = LocalDate.parse(info[i + 2]);
+                        SavingDeposit tempSd = new SavingDeposit(depositDate, amount);
+                        tempS.deposit(tempC, tempSd);
+                    }
                 }
                 savingAccountList.add(tempS);
             }

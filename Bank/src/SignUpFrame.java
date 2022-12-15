@@ -137,7 +137,6 @@ public class SignUpFrame extends JFrame implements ActionListener {
 //                need a class of signup to adduser, which has a func of adduser, so it can be called here.
                 Customer tempC = CustomerFactory.createCustomer(userName,pw,firstname,lastname);
                 FileHandler.addUser(tempC);
-                FileHandler.writeFiles();
                 JOptionPane.showMessageDialog(this,
                         "Account created! Please login to your account");
                 dispose();

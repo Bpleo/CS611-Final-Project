@@ -1,11 +1,12 @@
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 
 public class CheckingAccount extends Account{
-    private HashMap<CurrencyType, Double> deposit;
+    private LinkedHashMap<CurrencyType, Double> deposit;
     public CheckingAccount(int accountHolderId, int customerId) {
         super(AccountType.CHECKING, accountHolderId,  customerId);
-        deposit = new HashMap<>();
+        deposit = new LinkedHashMap<>();
     }
 
     @Override
@@ -22,7 +23,16 @@ public class CheckingAccount extends Account{
             if (deposit.get(currency) < amount)
                 return false;
             else {
-                deposit.put(currency,deposit.get(currency)-amount);
+                if (currency == CurrencyType.USD) {
+                    if (deposit.containsKey(CurrencyType.USD))
+                        deposit.put(currency, deposit.get(currency) - amount);
+                    else {
+                        Optional<CurrencyType> temp = deposit.keySet().stream().findFirst();
+                        double usdAmount = Exchange.exchangeCurrency(CurrencyType.USD,temp.get(),amount);
+                        return withdraw(temp.get(),amount);
+                    }
+                }else
+                    deposit.put(currency,deposit.get(currency)-amount);
                 return true;
             }
         else

@@ -8,7 +8,6 @@ public class ViewCustomerAccountsFrame extends JFrame {
     private JPanel viewAccountsPanel;
     private JButton backButton;
     private JLabel userIDLabel;
-    private JTextArea accountsInfo;
     private JTextArea idField;
     private JTextArea accountField;
     private JTextArea balanceField;
@@ -25,6 +24,7 @@ public class ViewCustomerAccountsFrame extends JFrame {
         Customer customer = (Customer) FileHandler.getUserById(userId);
         userIDLabel.setText(String.valueOf(customer.getUserId()));
         ArrayList<Account> accounts = customer.getAccounts();
+        System.out.println(accounts.size());
         for (int i = 0; i < accounts.size(); i++){
             String accountType = "";
             Account account = accounts.get(i);
@@ -37,8 +37,8 @@ public class ViewCustomerAccountsFrame extends JFrame {
             else if(account.getType() == AccountType.LOAN)
                 accountType = "Loan Account";
             System.out.println(account);
-            idField.append(account.getAccountId() + "\n\n");
-            accountField.append(accountType + "\n\n");
+            idField.append(account.getAccountId() + "\n\n\n\n");
+            accountField.append(accountType + "\n\n\n\n");
             if (account.getType() == AccountType.CHECKING)
                 checkingBalance((CheckingAccount) account);
             else if (account.getType() == AccountType.SAVING)
@@ -48,7 +48,6 @@ public class ViewCustomerAccountsFrame extends JFrame {
             else if (account.getType() == AccountType.SECURITY)
                 stockBalance((SecurityAccount) account);
         }
-        //TODO:add account list and show it
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,6 +62,9 @@ public class ViewCustomerAccountsFrame extends JFrame {
             if (deposit != -1){
                 balanceField.append(deposit+"\n");
                 currencyField.append(c+"\n");
+            } else {
+                balanceField.append("N\\A\n");
+                currencyField.append(c+"\n");
             }
         }
     }
@@ -72,6 +74,9 @@ public class ViewCustomerAccountsFrame extends JFrame {
             double deposit = account.getBalance(c);
             if (deposit != -1){
                 balanceField.append(deposit+"\n");
+                currencyField.append(c+"\n");
+            } else {
+                balanceField.append("N\\A\n");
                 currencyField.append(c+"\n");
             }
         }
