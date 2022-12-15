@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 public class StockGUI extends JFrame {
 
@@ -21,7 +21,7 @@ public class StockGUI extends JFrame {
     private int getAmount(){
         return Integer.valueOf(amount.getText());
     }
-    private String getStockname() { return stockName.getText();}
+    private String getStockName() { return stockName.getText();}
 
     public StockGUI(int user) {
         setContentPane(Stock);
@@ -30,25 +30,27 @@ public class StockGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
 
-        SecurityAccount stockAccount = getStockAccount(user + "");
-        List<Stock> stockHoldList;
+        SecurityAccount stockAccount = getStockAccount(user);
+        ArrayList<Stock> stockHoldList;
+
         if(stockAccount != null) {
-//            TODO
-//            stockHoldList = stockAccount.  here need the stock order history
-//            for (Stock stock : stockHoldList) {
-//                holdStocks.append( here need stocks name + " " + here need stocks amount + "\n\n");
-//            }
+            // Loop through list of stock held in portfolio
+            for (Stock stock: stockAccount.getStockListOwned()){
+                holdStocks.append(stock.getStockName()+" "+stock.getStockQuantity()+ "\n\n");
+            }
+
         }
         else{
             JOptionPane.showMessageDialog(Stock, "Please create a stock account");
             dispose();
         }
-//        TODO
-//        get list of stocks
-//        new stock, make it = stock in list(below)
-//        for(Stock stock:List){
-//            stockList.append( here need stocks name + " "+ here need stocks price()+ "\n\n");
-//        }
+
+        // Get list of stocks available in Stock Market
+        // Add it to the list
+        for (Stock stock : StockMarket.stockMarketList){
+            stockList.append(stock.getStockName()+" "+stock.getStockPrice()+"\n\n");
+        }
+
         amount.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -72,7 +74,7 @@ public class StockGUI extends JFrame {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SecurityAccount stockAccount = getStockAccount(user + "");
+                SecurityAccount stockAccount = getStockAccount(user);
 //                TODO
 //                get the list of stocks
                 if(stockName.getText().isEmpty()){
@@ -80,23 +82,27 @@ public class StockGUI extends JFrame {
                 }
                 else {
                     int flag = 0;
-//                    new stock, make it = stocks in list
-//                    for (Stock stock : stocks) {
-//                        if (stockName.getText().toString() whether equals to the stock name)) {
-//                            if ( here do the operator buy stock, also need the parameters:getStockname(), getAmount() func above) {
-//                                JOptionPane.showMessageDialog(Stock, "Stocks purchased!");
-//                                flag = 1;
-//                                dispose();
-//                            }
-//                            else{
-//                                JOptionPane.showMessageDialog(Stock, "Not enough balance");
-//                                flag = 1;
-//                            }
-//                            break;
-//                        }
-//                    }
+
+                    // Get the marketStock form Stock Market listed stocks
+                    Stock marketStock = StockMarket.getStockByName(getStockName());
+                    // Check if valid stock
+                    if(marketStock!=null){
+                        // Perform buy Trade
+                        if(stockAccount.buyTrade(marketStock, getAmount())){
+                            JOptionPane.showMessageDialog(Stock, "Stocks purchased!");
+                            flag=1;
+                            dispose();
+                        }else{
+                            // If buy Trade fails,  due to insufficient balance
+                            JOptionPane.showMessageDialog(Stock, "Not enough balance");
+                            flag=1;
+                        }
+
+                    }
+
                     if(flag == 0)
                         JOptionPane.showMessageDialog(Stock, "Please enter a valid stock name");
+
                 }
 
             }
@@ -124,7 +130,7 @@ public class StockGUI extends JFrame {
 
     }
 
-    private SecurityAccount getStockAccount(String userName) {
+    private SecurityAccount getStockAccount(int userId) {
         /*
         Get list of Customer accounts through username
         new account, make it = accounts in list
@@ -133,7 +139,7 @@ public class StockGUI extends JFrame {
         SecurityAccount stockAccount = null;
 
         // Fetch the customer
-        Customer customer = (Customer) FileHandler.checkUser(userName);
+        Customer customer = (Customer) FileHandler.getUserById(userId);
 
         for (Account account : customer.getAccounts()){
             if(account instanceof SecurityAccount){
