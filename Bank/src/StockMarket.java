@@ -62,7 +62,7 @@ public class StockMarket {
         return false;
     }
 
-    public void simulateStockMarket() {
+    public static void simulateStockMarket() {
         /*
         This method is used to simulate the change in the stock market
         It is done is randomizing the stock's price.
