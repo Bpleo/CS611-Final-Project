@@ -34,32 +34,39 @@ public class FileHandler {
         return null;
     }
 
-    public static void updateAccount(Account account, int withdrawOrDeposit) {
+    public static void updateAccount(Account account) {
         switch (account.getType()) {
             case LOAN:
-                for (LoanAccount loanAccount : loanAccountList){
-                    if (loanAccount.getAccountId() == account.getAccountId()){
-                    }
+                LoanAccount tempL = (LoanAccount) account;
+                for (int i = 0; i < loanAccountList.size(); i++){
+                    if (loanAccountList.get(i).getAccountId() == tempL.getAccountId())
+                        loanAccountList.set(i, new LoanAccount(tempL.getAccountId(), tempL.getCustomerId(), tempL.getLoanAmount(), tempL.getLoanInterest(), tempL.getLoanType(), tempL.getLoanDate(), tempL.getPaidDate()));
                 }
                 writeLoan();
                 break;
             case SAVING:
-                for (SavingAccount savingAccount : savingAccountList){
-                    if (savingAccount.getAccountId() == account.getAccountId()){
-                        switch (withdrawOrDeposit){
-                            case 1: //withdraw
-                                break;
-                            case 2: //deposit
-                                break;
-                        }
+                SavingAccount tempA = (SavingAccount) account;
+                for (int i = 0; i < savingAccountList.size(); i++){
+                    if (savingAccountList.get(i).getAccountId() == tempA.getAccountId()){
+                        savingAccountList.set(i, new SavingAccount(tempA.getAccountId(), tempA.getCustomerId(), tempA.checkSecurityTransferEligibility(), tempA.getInterestSaving(), tempA.getStockType(), tempA.getBalance()));
                     }
                 }
                 writeSaving();
                 break;
             case CHECKING:
+                CheckingAccount tempC = (CheckingAccount) account;
+                for (int i = 0; i < checkingAccountList.size(); i++){
+                    if (checkingAccountList.get(i).getAccountId() == tempC.getAccountId())
+                        checkingAccountList.set(i,new CheckingAccount(tempC.getAccountId(), tempC.getCustomerId(), tempC.getDeposit()));
+                }
                 writeChecking();
                 break;
             case SECURITY:
+                SecurityAccount tempS = (SecurityAccount) account;
+                for (int i = 0; i < securityAccountList.size(); i++){
+                    if (securityAccountList.get(i).getAccountId() == tempS.getAccountId())
+                        securityAccountList.set(i, new SecurityAccount(tempS.getAccountId(), tempS.getCustomerId(),tempS.getStockBalance(),tempS.getProfit(),tempS.checkLoss(),tempS.getStockListOwned()));
+                }
                 writeSecurity();
                 break;
         }

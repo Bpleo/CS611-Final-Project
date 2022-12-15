@@ -74,22 +74,14 @@ public class Deposit extends JFrame {
                     JOptionPane.showMessageDialog(DepositPanel, "Deposit cannot less than 100");
                 }else{
                     long accountId = Long.parseLong(accountList.getSelectedItem().toString().split(" ")[0]);
-                    for (Account account : accounts) {
-                        if (account.getAccountId() == accountId)
-                            account.deposit(getCurrency(),getDeposit());
+                    for (int i = 0; i < accounts.size(); i++) {
+                        if (accounts.get(i).getAccountId() == accountId) {
+                            accounts.get(i).deposit(getCurrency(), getDeposit());
+                            FileHandler.updateAccount(accounts.get(i));
+                            JOptionPane.showMessageDialog(DepositPanel, "" + getDeposit() + getCurrency() + " deposited!");
+                            dispose();
+                        }
                     }
-//                    TODO
-//                    need to get list of accounts
-//                    new account, make it = accounts in the list
-//                    for(Account account: accounts){
-//                        if(compare the account id with checking.getSelectedItem().toString()){
-//                            make the account deposit money, Update the corresponding data, need to use getDeposit() func below
-//                            break;
-//                        }
-//                    }
-//                    save accounts info to csv
-                    JOptionPane.showMessageDialog(DepositPanel, "Amount deposited!");
-                    dispose();
                 }
             }
         });

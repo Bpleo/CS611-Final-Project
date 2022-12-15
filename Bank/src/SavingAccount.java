@@ -14,6 +14,25 @@ public class SavingAccount extends Account{
         this.interestSaving = 0;
     }
 
+    public SavingAccount(long accountHolderId, int customerId, boolean stockEligibility, double interestSaving, CurrencyType stockType, HashMap<CurrencyType, SavingDeposit> balance){
+        super(AccountType.SAVING, accountHolderId, customerId);
+        this.stockEligibility = stockEligibility;
+        this.stockType = stockType;
+        this.interestSaving = interestSaving;
+        this.balance = new HashMap<>();
+        for (CurrencyType c : balance.keySet()){
+            this.balance.put(c,balance.get(c));
+        }
+    }
+
+    public CurrencyType getStockType() {
+        return stockType;
+    }
+
+    public HashMap<CurrencyType, SavingDeposit> getBalance() {
+        return balance;
+    }
+
     public double getInterestSaving() {
         return interestSaving;
     }

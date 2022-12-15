@@ -9,6 +9,17 @@ public class CheckingAccount extends Account{
         deposit = new LinkedHashMap<>();
     }
 
+    public CheckingAccount(long accountHolderId, int customerId, LinkedHashMap<CurrencyType, Double> deposit){
+        super(AccountType.CHECKING,accountHolderId,customerId);
+        this.deposit = new LinkedHashMap<>();
+        for (CurrencyType c : deposit.keySet())
+            this.deposit.put(c,deposit.get(c));
+    }
+
+    public LinkedHashMap<CurrencyType, Double> getDeposit() {
+        return deposit;
+    }
+
     @Override
     public void deposit(CurrencyType currency, double amount) {
         if (deposit.containsKey(currency))
