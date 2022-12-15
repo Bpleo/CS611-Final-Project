@@ -34,6 +34,37 @@ public class FileHandler {
         return null;
     }
 
+    public static void updateAccount(Account account, int withdrawOrDeposit) {
+        switch (account.getType()) {
+            case LOAN:
+                for (LoanAccount loanAccount : loanAccountList){
+                    if (loanAccount.getAccountId() == account.getAccountId()){
+                    }
+                }
+                writeLoan();
+                break;
+            case SAVING:
+                for (SavingAccount savingAccount : savingAccountList){
+                    if (savingAccount.getAccountId() == account.getAccountId()){
+                        switch (withdrawOrDeposit){
+                            case 1: //withdraw
+                                break;
+                            case 2: //deposit
+                                break;
+                        }
+                    }
+                }
+                writeSaving();
+                break;
+            case CHECKING:
+                writeChecking();
+                break;
+            case SECURITY:
+                writeSecurity();
+                break;
+        }
+    }
+
     public static void addAccount(Account account){
         switch (account.getType()){
             case LOAN:
@@ -119,7 +150,7 @@ public class FileHandler {
             while (in.hasNext()){
                 String[] info = in.nextLine().split(",");
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                long aId = Long.parseLong(info[1]);
                 CheckingAccount tempC = new CheckingAccount(aId, cId);
                 for (int i = 2; i < info.length; i+=2){
                     if (!info[i+1].equals(" "))
@@ -139,7 +170,7 @@ public class FileHandler {
             while (in.hasNext()){
                 String[] info = in.nextLine().split(",");
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                long aId = Long.parseLong(info[1]);
                 double interestRate = Double.parseDouble(info[2]);
                 SavingAccount tempS = new SavingAccount(aId, cId);
                 tempS.setInterestSaving(interestRate);
@@ -167,7 +198,7 @@ public class FileHandler {
                 String[] info = in.nextLine().split(",");
                 //Create Account
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                long aId = Long.parseLong(info[1]);
                 LoanAccount tempL = new LoanAccount(aId,cId);
                 //Fill in attribute
                 double rate = Double.parseDouble(info[2]);
@@ -220,7 +251,7 @@ public class FileHandler {
                 String[] info = in.nextLine().split(",");
                 //Get attribute
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                Long aId = Long.parseLong(info[1]);
                 double stockBalance = Double.parseDouble(info[2]);
                 double profit = Double.parseDouble(info[3]);
                 double loss = Double.parseDouble(info[4]);
