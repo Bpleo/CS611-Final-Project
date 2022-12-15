@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,24 @@ public class Deposit extends JFrame {
     private JTextField depositAmount;
     private JButton cancelButton;
     private JButton depositButton;
-    private JComboBox<String> checking;
+    private JComboBox<String> accountList;
+
+    private JComboBox<CurrencyType> currencyType;
+
+    private CurrencyType getCurrency(){
+        CurrencyType currency = null;
+        if(currencyType.getSelectedItem() == CurrencyType.USD){
+            currency = CurrencyType.USD;
+        }else if(currencyType.getSelectedItem() == CurrencyType.CNY){
+            currency = CurrencyType.CNY;
+        }else if(currencyType.getSelectedItem() == CurrencyType.INR){
+            currency = CurrencyType.INR;
+        }else
+            currency = CurrencyType.GBP;
+        return currency;
+
+    }
+
 
     public Deposit(Customer user){
         setContentPane(DepositPanel);
@@ -20,14 +38,11 @@ public class Deposit extends JFrame {
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
-//        TODO
-//        need to get listof user accounts through userid
-//        new account, make it = accounts in the list
-//        for(Account account : accounts){
-//            if(account.getType()== AccountType.CHECKING){
-//                checking.addItem( here need to get accounts Id);
-//            }
-//        }
+        ArrayList<Account> accounts = user.getAccounts();
+        for (Account account : accounts)
+            accountList.addItem(account.getAccountId() + " " + account.getType());
+        for (CurrencyType c : CurrencyType.values())
+            currencyType.addItem(c);
 
         depositAmount.addKeyListener(new KeyAdapter() {
             @Override
@@ -58,6 +73,11 @@ public class Deposit extends JFrame {
                 else if(getDeposit() < 100.0){
                     JOptionPane.showMessageDialog(DepositPanel, "Deposit cannot less than 100");
                 }else{
+                    long accountId = Long.parseLong(accountList.getSelectedItem().toString().split(" ")[0]);
+                    for (Account account : accounts) {
+                        if (account.getAccountId() == accountId)
+                            account.deposit(getCurrency(),getDeposit());
+                    }
 //                    TODO
 //                    need to get list of accounts
 //                    new account, make it = accounts in the list
@@ -79,10 +99,10 @@ public class Deposit extends JFrame {
     private double getDeposit(){
         return Double.parseDouble(depositAmount.getText().toString());
     }
-
-    public static void main(String[] args) {
-        Customer user = new Customer("misaki", "l", 1,"Longdan","Mao");
-        Deposit c = new Deposit(user);
-    }
+//Preview
+//    public static void main(String[] args) {
+//        Customer user = new Customer("misaki", "l", 1,"Longdan","Mao");
+//        Deposit c = new Deposit(user);
+//    }
 
 }

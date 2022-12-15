@@ -88,7 +88,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="de77a" class="javax.swing.JComboBox" binding="currency">
+      <component id="de77a" class="javax.swing.JComboBox" binding="currencyType">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag top="0" left="10" bottom="0" right="100" weightx="1.0" weighty="1.0"/>
