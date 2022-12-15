@@ -31,4 +31,18 @@ public class BankManager extends User{
     public void AllowStockTrading() {
 
     }
+
+    public String getName() {
+        return managerName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.managerName = firstName;
+    }
+
+    public int getManagerId() {
+        return this.managerId;
+    }
+
+
 }

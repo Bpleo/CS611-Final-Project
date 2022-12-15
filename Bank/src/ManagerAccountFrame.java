@@ -88,12 +88,7 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         if (e.getSource() == viewTransactionButton) {
 //            TODO
 //            get all the transactions info
-<<<<<<< HEAD
-//            new ViewTransactions( transactions );
-        
-=======
 //            new ViewDailyTransactions( transactions );
->>>>>>> 80c8e89c34dbf1837046262230af7e83af2fd0cd
         }
         if (e.getSource() == viewProfitButton) {
 //            TODO

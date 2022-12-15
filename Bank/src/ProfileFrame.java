@@ -21,6 +21,7 @@ public class ProfileFrame extends JFrame implements ActionListener {
     private final JButton resetPasswordButton;
     private final JTextField newPwdField;
     private Customer customer;
+    private BankManager manager;
 
 
     public ProfileFrame(String username) {
@@ -31,12 +32,33 @@ public class ProfileFrame extends JFrame implements ActionListener {
         setResizable(false);
         container = getContentPane();
         this.username = username;
-        customer = (Customer) FileHandler.checkUser(username);
+        //customer = (Customer) FileHandler.checkUser(username);
+        customer = null;
+        manager = null;
+        User temp = FileHandler.checkUser(username);
+        if (temp.getUserType() == "M") {
+            manager = (BankManager) temp;
+            firstNameLabel = new JLabel("First Name: " + manager.getName());
+            lastNameLabel = new JLabel("Last Name: " + "Manager");
+            userLabel = new JLabel("Username: " + username);
+            idLabel = new JLabel("User Id: " + manager.getManagerId());
+            passwordLabel = new JLabel("Password: " + manager.getUserPwd());
+        }
+        else {
+            customer = (Customer) temp;
+            firstNameLabel = new JLabel("First Name: " + customer.getFirstName());
+            lastNameLabel = new JLabel("Last Name: " + customer.getLastName());
+            userLabel = new JLabel("Username: " + username);
+            idLabel = new JLabel("User Id: " + customer.getUserId());
+            passwordLabel = new JLabel("Password: " + customer.getUserPwd());
+        }
+        /* 
         firstNameLabel = new JLabel("First Name: " + customer.getFirstName());
         lastNameLabel = new JLabel("Last Name: " + customer.getLastName());
         userLabel = new JLabel("Username: " + username);
         idLabel = new JLabel("User Id: " + customer.getUserId());
         passwordLabel = new JLabel("Password: " + customer.getUserPwd());
+        */
         firstName = new JLabel();
         lastName = new JLabel();
         uname = new JLabel();
@@ -107,6 +129,9 @@ public class ProfileFrame extends JFrame implements ActionListener {
             }
             else{
                 //TODO: update Password in database
+                if (customer == null) {
+                    manager.setUserPwd(newPwd);
+                }
                 customer.setUserPwd(newPwd);
                 FileHandler.writeFiles();
                 JOptionPane.showMessageDialog(this, "Password Updated");

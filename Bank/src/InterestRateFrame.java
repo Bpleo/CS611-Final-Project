@@ -46,6 +46,7 @@ public class InterestRateFrame extends JFrame {
         saInterest.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
                 if(!(Character.isDigit(c) || (c==KeyEvent.VK_BACK_SPACE) || c==KeyEvent.VK_DELETE)) {
                     getToolkit().beep();
                     e.consume();
@@ -72,6 +73,9 @@ public class InterestRateFrame extends JFrame {
 //                    TODO
 //                    need set the loan interest here
                     ArrayList<LoanAccount> loanAccountLists = FileHandler.getLoanAccountList();
+                    for (LoanAccount l : loanAccountLists) {
+                        l.setLoanInterest(interest);
+                    }
                     JOptionPane.showMessageDialog(interestPanel, "Interest rate set successfully");
                 }
             }
@@ -87,6 +91,10 @@ public class InterestRateFrame extends JFrame {
                     Double interest = Double.parseDouble(saInterest.getText().toString());
 //                    TODO
 //                    need set the loan interest here
+                    ArrayList<SavingAccount> savingAccountLists = FileHandler.getSavingAccountList();
+                    for (SavingAccount s : savingAccountLists) {
+                        s.setInterestSaving(interest);
+                    }
                     JOptionPane.showMessageDialog(interestPanel, "Interest rate set successfully");
                 }
             }
