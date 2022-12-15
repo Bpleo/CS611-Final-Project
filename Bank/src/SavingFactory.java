@@ -13,9 +13,15 @@ public class SavingFactory implements AccountFactoryInterface {
         this.accountHolderId = accountNumber;
     }
 
+    private long getAccountId(){
+        long smallest = 1000000000000000L;
+        long biggest = 9999999999999999L;
+        return (long)(Math.random()*(biggest - smallest + 1)+smallest);
+    }
+
+
     @Override
     public Account createAccount () {
-
-        return new SavingAccount(accountHolderId, customerID);
+        return new SavingAccount(getAccountId(), customerID);
     }
 }

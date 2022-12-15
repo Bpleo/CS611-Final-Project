@@ -99,7 +99,6 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
             new ProfileFrame(username);
         }
         if (e.getSource() == accountButton) {
-//            TODO
             new ViewCustomerAccountsFrame(customerID);
         }
         if (e.getSource() == checkTransactionButton) {
@@ -108,12 +107,11 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
 //            new ViewTransactions(here need the transaction instance)
         }
         if (e.getSource() == createAccountButton) {
-//            TODO
             new CreateAccountFrame(this.user);
         }
         if (e.getSource() == closeAccountButton) {
-//            TODO
-//            new CloseAccount(this.user);
+//            TODO factory account id needs to be unique
+            new CloseAccount(this.user);
         }
         if (e.getSource() == loanButton) {
 //            TODO
@@ -121,12 +119,12 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if (e.getSource() == makeTransactionButton) {
 //            TODO
-//            new ChooseTransactions(user);
+            new ChooseTransactions(user);
         }
         if(e.getSource() == stockButton){
 //            TODO
-//            need to get the stock info from the csv first
-//            new StockGUI(user);
+//            need to get the stock -info from the csv first
+            new StockGUI(user.getUserId());
         }
         if (e.getSource() == logoutButton) {
             dispose();

@@ -17,6 +17,7 @@ public class FileHandler {
     private static final String dirPath = "." + File.separator + "csvFile" + File.separator;
     public static void addUser(User user){
         userList.add(user);
+        writeCustomer();
     }
 
     public static User checkUser(String userName){
@@ -31,6 +32,94 @@ public class FileHandler {
             if (userList.get(i).getUserId() == userId)
                 return userList.get(i);
         return null;
+    }
+
+    public static void updateAccount(Account account) {
+        switch (account.getType()) {
+            case LOAN:
+                LoanAccount tempL = (LoanAccount) account;
+                for (int i = 0; i < loanAccountList.size(); i++){
+                    if (loanAccountList.get(i).getAccountId() == tempL.getAccountId())
+                        loanAccountList.set(i, new LoanAccount(tempL.getAccountId(), tempL.getCustomerId(), tempL.getLoanAmount(), tempL.getLoanInterest(), tempL.getLoanType(), tempL.getLoanDate(), tempL.getPaidDate()));
+                }
+                writeLoan();
+                break;
+            case SAVING:
+                SavingAccount tempA = (SavingAccount) account;
+                for (int i = 0; i < savingAccountList.size(); i++){
+                    if (savingAccountList.get(i).getAccountId() == tempA.getAccountId()){
+                        savingAccountList.set(i, new SavingAccount(tempA.getAccountId(), tempA.getCustomerId(), tempA.checkSecurityTransferEligibility(), tempA.getInterestSaving(), tempA.getStockType(), tempA.getBalance()));
+                    }
+                }
+                writeSaving();
+                break;
+            case CHECKING:
+                CheckingAccount tempC = (CheckingAccount) account;
+                for (int i = 0; i < checkingAccountList.size(); i++){
+                    if (checkingAccountList.get(i).getAccountId() == tempC.getAccountId())
+                        checkingAccountList.set(i,new CheckingAccount(tempC.getAccountId(), tempC.getCustomerId(), tempC.getDeposit()));
+                }
+                writeChecking();
+                break;
+            case SECURITY:
+                SecurityAccount tempS = (SecurityAccount) account;
+                for (int i = 0; i < securityAccountList.size(); i++){
+                    if (securityAccountList.get(i).getAccountId() == tempS.getAccountId())
+                        securityAccountList.set(i, new SecurityAccount(tempS.getAccountId(), tempS.getCustomerId(),tempS.getStockBalance(),tempS.getProfit(),tempS.checkLoss(),tempS.getStockListOwned()));
+                }
+                writeSecurity();
+                break;
+        }
+    }
+
+    public static void addAccount(Account account){
+        switch (account.getType()){
+            case LOAN:
+                loanAccountList.add((LoanAccount)  account);
+                writeLoan();
+                break;
+            case SAVING:
+                savingAccountList.add((SavingAccount) account);
+                writeSaving();
+                break;
+            case CHECKING:
+                checkingAccountList.add((CheckingAccount) account);
+                writeChecking();
+                break;
+            case SECURITY:
+                securityAccountList.add((SecurityAccount) account);
+                writeSecurity();
+                break;
+        }
+    }
+
+    public static void removeAccount(Account account) {
+        switch (account.getType()){
+            case LOAN:
+                for (int i = 0; i < loanAccountList.size(); i++)
+                    if (loanAccountList.get(i).getAccountId() == account.getAccountId())
+                        loanAccountList.remove(i);
+                writeLoan();
+                break;
+            case SAVING:
+                for (int i = 0; i < savingAccountList.size(); i++)
+                    if (savingAccountList.get(i).getAccountId() == account.getAccountId())
+                        savingAccountList.remove(i);
+                writeSaving();
+                break;
+            case CHECKING:
+                for (int i = 0; i < checkingAccountList.size(); i++)
+                    if (checkingAccountList.get(i).getAccountId() == account.getAccountId())
+                        checkingAccountList.remove(i);
+                writeChecking();
+                break;
+            case SECURITY:
+                for (int i = 0; i < securityAccountList.size(); i++)
+                    if (securityAccountList.get(i).getAccountId() == account.getAccountId())
+                        securityAccountList.remove(i);
+                writeSecurity();
+                break;
+        }
     }
 
     public static ArrayList<User> getUserList() {
@@ -57,6 +146,7 @@ public class FileHandler {
         readChecking();
         readSaving();
         readLoan();
+        readStockMarket();
         readSecurity();
         readCustomer();
     }
@@ -67,10 +157,11 @@ public class FileHandler {
             while (in.hasNext()){
                 String[] info = in.nextLine().split(",");
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                long aId = Long.parseLong(info[1]);
                 CheckingAccount tempC = new CheckingAccount(aId, cId);
                 for (int i = 2; i < info.length; i+=2){
-                    tempC.deposit(CurrencyType.valueOf(info[i]),Double.parseDouble(info[i+1]));
+                    if (!info[i+1].equals(" "))
+                        tempC.deposit(CurrencyType.valueOf(info[i]),Double.parseDouble(info[i+1]));
                 }
                 checkingAccountList.add(tempC);
             }
@@ -86,16 +177,18 @@ public class FileHandler {
             while (in.hasNext()){
                 String[] info = in.nextLine().split(",");
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                long aId = Long.parseLong(info[1]);
                 double interestRate = Double.parseDouble(info[2]);
                 SavingAccount tempS = new SavingAccount(aId, cId);
                 tempS.setInterestSaving(interestRate);
                 for (int i = 3; i < info.length; i+=3){
-                    CurrencyType tempC = CurrencyType.valueOf(info[i]);
-                    double amount = Double.parseDouble(info[i+1]);
-                    LocalDate depositDate = LocalDate.parse(info[i+2]);
-                    SavingDeposit tempSd = new SavingDeposit(depositDate,amount);
-                    tempS.deposit(tempC,tempSd);
+                    if (!(info[i+1].equals(" ") && info[i+2].equals(" "))) {
+                        CurrencyType tempC = CurrencyType.valueOf(info[i]);
+                        double amount = Double.parseDouble(info[i + 1]);
+                        LocalDate depositDate = LocalDate.parse(info[i + 2]);
+                        SavingDeposit tempSd = new SavingDeposit(depositDate, amount);
+                        tempS.deposit(tempC, tempSd);
+                    }
                 }
                 savingAccountList.add(tempS);
             }
@@ -112,7 +205,7 @@ public class FileHandler {
                 String[] info = in.nextLine().split(",");
                 //Create Account
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                long aId = Long.parseLong(info[1]);
                 LoanAccount tempL = new LoanAccount(aId,cId);
                 //Fill in attribute
                 double rate = Double.parseDouble(info[2]);
@@ -130,6 +223,34 @@ public class FileHandler {
         }
     }
 
+    private static void readStockMarket(){
+        try{
+            // Initialise Stock Market
+            new StockMarket();
+
+            Scanner in = new Scanner(new File(dirPath + "stockmarket.csv"));
+            while (in.hasNext()){
+                String[] info = in.nextLine().split(",");
+
+                //Get attribute
+                int sId = Integer.parseInt(info[0]);
+                String name = info[1];
+                double price = Double.parseDouble(info[2]);
+                double buyPrice = Double.parseDouble(info[3]);
+                int quantity = Integer.parseInt(info[4]);
+
+                Stock tempStock = new Stock(sId,name,price,quantity);
+
+                // Add the stock to stock market
+                StockMarket.stockMarketList.add(tempStock);
+
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
+    }
+
     private static void readSecurity(){
         try{
             Scanner in = new Scanner(new File(dirPath + "security.csv"));
@@ -137,7 +258,7 @@ public class FileHandler {
                 String[] info = in.nextLine().split(",");
                 //Get attribute
                 int cId = Integer.parseInt(info[0]);
-                int aId = Integer.parseInt(info[1]);
+                Long aId = Long.parseLong(info[1]);
                 double stockBalance = Double.parseDouble(info[2]);
                 double profit = Double.parseDouble(info[3]);
                 double loss = Double.parseDouble(info[4]);
@@ -203,6 +324,7 @@ public class FileHandler {
         writeChecking();
         writeSaving();
         writeLoan();
+        writeStockMarket();
         writeSecurity();
     }
 
@@ -323,4 +445,24 @@ public class FileHandler {
             System.out.println(e.getMessage());
         }
     }
+
+    private static void writeStockMarket(){
+        try{
+            File temp = new File(dirPath + "stockmarket.csv");
+            if (!temp.exists())
+                temp.createNewFile();
+            PrintWriter out = new PrintWriter(temp);
+            for (int i = 0; i < StockMarket.stockMarketList.size(); i++){
+                Stock tempS = StockMarket.stockMarketList.get(i);
+                out.print(tempS.getStockId() + "," + tempS.getStockName() + "," + tempS.getStockPrice());
+                out.print("," + tempS.getStockBuyPrice() + "," + tempS.getStockQuantity());
+                out.println();
+            }
+            out.close();
+        }catch (IOException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

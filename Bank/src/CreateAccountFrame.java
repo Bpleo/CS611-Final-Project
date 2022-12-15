@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreateAccountFrame extends JFrame {
@@ -15,8 +16,24 @@ public class CreateAccountFrame extends JFrame {
     private JLabel createAccount;
     private JButton backButton;
 
-    //TODO
-    //need change this customer class to user class
+    private Account checkAccount(ArrayList<Account> accounts, AccountType accountType){
+        for (int i = 0; i < accounts.size(); i++)
+            if (accounts.get(i).getType() == accountType)
+                return accounts.get(i);
+        return null;
+    }
+
+    private SavingAccount checkStockEligibleAccount(ArrayList<Account> accounts) {
+        for (int i = 0; i < accounts.size(); i++)
+            if (accounts.get(i).getType() == AccountType.SAVING){
+                SavingAccount temp = (SavingAccount) accounts.get(i);
+                if (temp.checkSecurityTransferEligibility())
+                    return temp;
+            }
+
+        return null;
+    }
+
     public CreateAccountFrame(Customer user){
         setTitle("Create Account Form");
         setContentPane(createAccountPanel);
@@ -60,6 +77,7 @@ public class CreateAccountFrame extends JFrame {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<Account> accounts = user.getAccounts();
                 System.out.println("test"+comboBoxCurrencyType.getSelectedItem());
 
                 if(InitialDepositTextField.getText().isEmpty()){
@@ -68,28 +86,82 @@ public class CreateAccountFrame extends JFrame {
                 else if(getDeposit() < 100.0){
                     JOptionPane.showMessageDialog(createAccountPanel, "Initial Deposit cannot less than 100");
                 }
-//                TODO
-//                else if(comboBoxAccountType.getSelectedItem()== AccountType.SECURITY){
-//                    add account lsit from the id
-//                    check saving account from the list
-//                    if( the output of checking the saving account ==null){
-//                        JOptionPane.showMessageDialog(createAccountPanel, "You don't have a saving account. You must have more than $5000 in your saving account");
-//
-//                    } else if(here need to check thr saving's deposit Amount >5000){
-//                        here can create new account about the stock (userid,deposit,getCurrency(func below),(AccountType) comboBoxAccountType.getSelectedItem())
-//                        get all the new account info
-//                        JOptionPane.showMessageDialog(createAccountPanel, "Account Created!");
-//                        need to add a withdraw fee when create a new stock account
-//                        dispose();
-//                    }else{
-//                        JOptionPane.showMessageDialog(createAccountPanel, "You must have more than $5000 in your saving account");
-//                    }
-//                } else{
-//                    here can create new account about the saving/checking  (userid, deposit,getCurrency(func below),(AccountType) comboBoxAccountType.getSelectedItem())
-//                    get all the new account info
-//                    JOptionPane.showMessageDialog(createAccountPanel, "Account Created!");
-//                    dispose();
-//                }
+                else if(comboBoxAccountType.getSelectedItem() == AccountType.SECURITY){
+                    if (checkAccount(accounts,AccountType.SAVING) == null){
+                        JOptionPane.showMessageDialog(createAccountPanel, "You don't have a saving account. You must have more than $5000 in your saving account");
+                    } else {
+                        SavingAccount temp = checkStockEligibleAccount(accounts);
+                        if (temp == null){
+                            JOptionPane.showMessageDialog(createAccountPanel, "You must have more than $5000 in your saving account");
+                        } else {
+                            SecurityAccount tempS = (SecurityAccount) AccountFactory.createAccount(AccountType.SECURITY,CurrencyType.USD,user.getUserId());
+                            CheckingAccount tempC = (CheckingAccount) checkAccount(accounts,AccountType.CHECKING);
+                            if (getDeposit() < 1000){
+                                JOptionPane.showMessageDialog(createAccountPanel, "Initial Deposit for saving cannot less than 1000");
+                            } else if (tempC == null) {
+                                JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                            } else if (tempC.withdraw(CurrencyType.USD,1)) {
+                                tempS.deposit((CurrencyType) comboBoxCurrencyType.getSelectedItem(),getDeposit());
+                                FileHandler.addAccount(tempS);
+                                user.addAccount(tempS);
+                                JOptionPane.showMessageDialog(createAccountPanel, "Stock Account Created!");
+                                dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                            }
+                        }
+                    }
+                } else if (comboBoxAccountType.getSelectedItem() == AccountType.LOAN){
+                    LoanAccount tempL = (LoanAccount) AccountFactory.createAccount(AccountType.LOAN,getCurrency(),user.getUserId());
+                    CheckingAccount tempC = (CheckingAccount) checkAccount(accounts,AccountType.CHECKING);
+                    if (tempC == null) {
+                        JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                    } else if (tempC.withdraw(CurrencyType.USD,1)) {
+                        FileHandler.addAccount(tempL);
+                        user.addAccount(tempL);
+                        JOptionPane.showMessageDialog(createAccountPanel, "Loan Account Created!");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                    }
+                } else if (comboBoxAccountType.getSelectedItem() == AccountType.CHECKING){
+                    CheckingAccount tempC = (CheckingAccount) AccountFactory.createAccount(AccountType.CHECKING,getCurrency(),user.getUserId());
+                    tempC.deposit(getCurrency(),getDeposit());
+                    CheckingAccount temp = (CheckingAccount) checkAccount(accounts,AccountType.CHECKING);
+                    if (temp == null)// if there is no checking account at all
+                        if (!tempC.withdraw(CurrencyType.USD,1)) {
+                            JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                        } else {
+                            FileHandler.addAccount(tempC);
+                            user.addAccount(tempC);
+                            JOptionPane.showMessageDialog(createAccountPanel, "Checking Account Created!");
+                            dispose();
+                        }
+                    else { // if there is one checking account
+                        if (temp.withdraw(CurrencyType.USD, 1)) {
+                            FileHandler.addAccount(tempC);
+                            user.addAccount(tempC);
+                            JOptionPane.showMessageDialog(createAccountPanel, "Checking Account Created!");
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                        }
+                    }
+                } else {
+                    SavingAccount tempS = (SavingAccount) AccountFactory.createAccount(AccountType.SAVING,getCurrency(),user.getUserId());
+                    CheckingAccount tempC = (CheckingAccount) checkAccount(accounts,AccountType.CHECKING);
+                    if (tempC == null) {
+                        JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                    } else if (tempC.withdraw(CurrencyType.USD,1)) {
+                        tempS.deposit(getCurrency(),getDeposit());
+                        FileHandler.addAccount(tempS);
+                        user.addAccount(tempS);
+                        JOptionPane.showMessageDialog(createAccountPanel, "Saving Account Created!");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(createAccountPanel, "Not able to pay account creation fee");
+                    }
+                }
             }
         });
     }
@@ -99,21 +171,22 @@ public class CreateAccountFrame extends JFrame {
         return Double.parseDouble(InitialDepositTextField.getText());
     }
 
-    //TODO:get input currency
-//    private void getCurrency(){
-//        if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.USD){
-//            make currency = USD
-//        }else if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.CNY){
-//            make urrency = CNY
-//        }else if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.KRW){
-//            make currency = KRW
-//        }
-//        return currency;
-//
-//    }
+    private CurrencyType getCurrency(){
+        CurrencyType currency = null;
+        if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.USD){
+            currency = CurrencyType.USD;
+        }else if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.CNY){
+            currency = CurrencyType.CNY;
+        }else if(comboBoxCurrencyType.getSelectedItem() == CurrencyType.INR){
+            currency = CurrencyType.INR;
+        }else
+            currency = CurrencyType.GBP;
+        return currency;
 
-    public static void main(String[] args) {
-        Customer user = new Customer("miaki", "l", 1,"Longdan","Mao");
-        CreateAccountFrame c = new CreateAccountFrame(user);
     }
+
+//    public static void main(String[] args) {
+//        Customer user = new Customer("miaki", "l", 1,"Longdan","Mao");
+//        CreateAccountFrame c = new CreateAccountFrame(user);
+//    }
 }

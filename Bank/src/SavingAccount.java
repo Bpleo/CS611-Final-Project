@@ -4,13 +4,33 @@ import java.util.HashMap;
 public class SavingAccount extends Account{
     private boolean stockEligibility = false;
     private double interestSaving;
+    private CurrencyType stockType = null;
     private HashMap<CurrencyType, SavingDeposit> balance;
 
     //when created, must deposit something in it.
-    public SavingAccount(int accountHolderId, int customerId) {
+    public SavingAccount(long accountHolderId, int customerId) {
         super(AccountType.SAVING, accountHolderId, customerId);
         balance = new HashMap<>();
         this.interestSaving = 0;
+    }
+
+    public SavingAccount(long accountHolderId, int customerId, boolean stockEligibility, double interestSaving, CurrencyType stockType, HashMap<CurrencyType, SavingDeposit> balance){
+        super(AccountType.SAVING, accountHolderId, customerId);
+        this.stockEligibility = stockEligibility;
+        this.stockType = stockType;
+        this.interestSaving = interestSaving;
+        this.balance = new HashMap<>();
+        for (CurrencyType c : balance.keySet()){
+            this.balance.put(c,balance.get(c));
+        }
+    }
+
+    public CurrencyType getStockType() {
+        return stockType;
+    }
+
+    public HashMap<CurrencyType, SavingDeposit> getBalance() {
+        return balance;
     }
 
     public double getInterestSaving() {
@@ -21,9 +41,30 @@ public class SavingAccount extends Account{
         this.interestSaving = interestSaving;
     }
 
+
     @Override
     public boolean withdraw(CurrencyType currency, double amount) {
-        return withdraw(LocalDate.now(),currency,amount);
+        if (!balance.containsKey(currency))
+            return false;
+        else
+        if (balance.get(currency).getAmount() < amount)
+            return false;
+        else {
+            double tempD = balance.get(currency).getAmount();
+            balance.get(currency).setWithdrawTimes(balance.get(currency).getWithdrawTimes()-1);
+            balance.get(currency).setAmount(tempD - amount);
+            if (currency == CurrencyType.USD)
+                if (balance.get(currency).getAmount() < 2500){
+                    stockEligibility = false;
+                    stockType = null;
+                }
+            else
+                if (currency == stockType && (Exchange.exchangeCurrency(currency,CurrencyType.USD,balance.get(currency).getAmount())) < 2500) {
+                    stockEligibility = false;
+                    stockType = null;
+                }
+            return true;
+        }
     }
 
     public void deposit(CurrencyType currency, SavingDeposit deposit){
@@ -38,22 +79,15 @@ public class SavingAccount extends Account{
             SavingDeposit tempS = new SavingDeposit(LocalDate.now(), amount);
             balance.put(currency,tempS);
         }
-        if (Exchange.exchangeCurrency(currency,CurrencyType.USD,balance.get(currency).getAmount()) >= 5000)
-            stockEligibility = true;
-    }
-
-    //sends in the date of the withdrawal to see if the customer can make the transaction.
-    public boolean withdraw(LocalDate date, CurrencyType currency, double amount) {
-        if (!balance.containsKey(currency))
-            return false;
+        if (currency == CurrencyType.USD)
+            if (balance.get(currency).getAmount() >= 5000){
+                stockEligibility = true;
+                stockType = currency;
+            }
         else
-            if (balance.get(currency).getAmount() < amount)
-                return false;
-            else {
-                double tempD = balance.get(currency).getAmount();
-                balance.get(currency).setWithdrawTimes(balance.get(currency).getWithdrawTimes()-1);
-                balance.get(currency).setAmount(tempD - amount);
-                return true;
+            if (Exchange.exchangeCurrency(currency,CurrencyType.USD,balance.get(currency).getAmount()) >= 5000) {
+                stockEligibility = true;
+                stockType = currency;
             }
     }
 
@@ -80,7 +114,7 @@ public class SavingAccount extends Account{
             return -1;
     }
 
-    public boolean checkSecurityTransferEligibility(CurrencyType currency){
+    public boolean checkSecurityTransferEligibility(){
         return stockEligibility;
     }
 

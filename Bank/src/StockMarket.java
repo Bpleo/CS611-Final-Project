@@ -5,6 +5,10 @@ public class StockMarket {
     // Stock Market listed stocks are publicly available information
     public static ArrayList<Stock> stockMarketList;
 
+    public StockMarket(){
+        stockMarketList = new ArrayList<Stock>();
+    }
+
     public ArrayList<Stock> getStockMarketList(){
         /*
         Method returns list of stock in stock market
@@ -58,7 +62,7 @@ public class StockMarket {
         return false;
     }
 
-    public void simulateStockMarket() {
+    public static void simulateStockMarket() {
         /*
         This method is used to simulate the change in the stock market
         It is done is randomizing the stock's price.
@@ -85,6 +89,26 @@ public class StockMarket {
 
             // If the stock Id matches, return it
             if (marketStock.getStockId() == stockId){
+                return marketStock;
+            }
+        }
+
+        // If stock not found, return null
+        return null;
+
+    }
+
+    public static Stock getStockByName(String stockName){
+        /*
+        This method is used to fetch the stock in the stock market
+        Loop through all the stocks and return with matching id.
+         */
+
+        // Loop through the stocks list in stock market
+        for (Stock marketStock: stockMarketList) {
+
+            // If the stock Id matches, return it
+            if (marketStock.getStockName().equals(stockName)){
                 return marketStock;
             }
         }

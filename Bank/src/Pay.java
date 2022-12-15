@@ -14,6 +14,8 @@ public class Pay extends JFrame {
     private JComboBox<String> accountsList;
     private JButton payButton;
     private JPanel PayPanel;
+    private JComboBox receiverCurrencyType;
+    private JComboBox senderCurrencyType;
 
     private int getReceiver(){
         return Integer.valueOf(receiver.getText());
@@ -107,4 +109,7 @@ public class Pay extends JFrame {
 
     }
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }

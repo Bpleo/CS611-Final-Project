@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,19 +13,22 @@ public class CloseAccount extends JFrame {
     private JLabel selectField;
     private JButton backButton;
 
-    //TODO:change customer to user class
+    private Account checkAccount(ArrayList<Account> accounts, AccountType accountType){
+        for (int i = 0; i < accounts.size(); i++)
+            if (accounts.get(i).getType() == accountType)
+                return accounts.get(i);
+        return null;
+    }
+
     public CloseAccount(Customer user){
         setTitle("Close Account");
         setContentPane(closeAccountPanel);
         setSize(1000, 800);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-//        TODO
-//        get the user account list through the userid
-//        for( new account , make it = user account info){
-//            accounts.addItem( here need to get account id );
-//        }
+        ArrayList<Account> accountList = user.getAccounts();
+        for (int i = 0; i < accountList.size(); i++)
+            accounts.addItem(accountList.get(i).getAccountId() + " " + accountList.get(i).getType());
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -36,19 +40,23 @@ public class CloseAccount extends JFrame {
         closeAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                TODO
-//                get the account list
-//                for(new account , make it = account list){
-//                    if( account's id = accounts' get_selectedID){
-//                        remove this account from accountList
-//                        Update the csv file that holds the account
-//                        JOptionPane.showMessageDialog(closeAccountPanel, "Account closed");
-//                        Bank manager can make Profit from here(?optional)
-//                        add a transaction here bcz of the profit(?optional)
-//                        dispose();
-//                        break;
-//                    }
-//                }
+                long accountId = Long.parseLong(accounts.getSelectedItem().toString().split(" ")[0]);
+                for (int i = 0; i < accountList.size(); i++){
+                    if (accountList.get(i).getAccountId() == accountId){
+                        CheckingAccount temp = (CheckingAccount) checkAccount(accountList,AccountType.CHECKING);
+                        if (temp == null){
+                            JOptionPane.showMessageDialog(closeAccountPanel, "Not able to pay account closing fee");
+                        } else if (temp.withdraw(CurrencyType.USD,1)) {
+                            FileHandler.removeAccount(accountList.get(i));
+                            user.removeAccount(accountList.get(i).getAccountId());
+                            JOptionPane.showMessageDialog(closeAccountPanel, "Account closed");
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(closeAccountPanel, "Not able to pay account closing fee");
+                        }
+
+                    }
+                }
             }
         });
 
