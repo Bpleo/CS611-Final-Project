@@ -5,6 +5,10 @@ public class StockMarket {
     // Stock Market listed stocks are publicly available information
     public static ArrayList<Stock> stockMarketList;
 
+    public StockMarket(){
+        stockMarketList = new ArrayList<Stock>();
+    }
+
     public ArrayList<Stock> getStockMarketList(){
         /*
         Method returns list of stock in stock market

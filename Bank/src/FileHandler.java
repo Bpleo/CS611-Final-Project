@@ -108,6 +108,7 @@ public class FileHandler {
         readChecking();
         readSaving();
         readLoan();
+        readStockMarket();
         readSecurity();
         readCustomer();
     }
@@ -177,6 +178,34 @@ public class FileHandler {
                 tempL.requestLoan(amount,type,rate,DAYS.between(loanDate,paidDate),loanDate);
                 //Add to list
                 loanAccountList.add(tempL);
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void readStockMarket(){
+        try{
+            // Initialise Stock Market
+            new StockMarket();
+
+            Scanner in = new Scanner(new File(dirPath + "stockmarket.csv"));
+            while (in.hasNext()){
+                String[] info = in.nextLine().split(",");
+
+                //Get attribute
+                int sId = Integer.parseInt(info[0]);
+                String name = info[1];
+                double price = Double.parseDouble(info[2]);
+                double buyPrice = Double.parseDouble(info[3]);
+                int quantity = Integer.parseInt(info[4]);
+
+                Stock tempStock = new Stock(sId,name,price,quantity);
+
+                // Add the stock to stock market
+                StockMarket.stockMarketList.add(tempStock);
+
             }
         }catch (FileNotFoundException e){
             System.out.println("Error Occurred");
@@ -377,4 +406,7 @@ public class FileHandler {
             System.out.println(e.getMessage());
         }
     }
+
+    
+
 }

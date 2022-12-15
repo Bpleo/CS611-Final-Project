@@ -123,8 +123,8 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
         }
         if(e.getSource() == stockButton){
 //            TODO
-//            need to get the stock info from the csv first
-//            new StockGUI(user);
+//            need to get the stock -info from the csv first
+            new StockGUI(user.getUserId());
         }
         if (e.getSource() == logoutButton) {
             dispose();
