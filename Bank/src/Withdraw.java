@@ -79,29 +79,13 @@ public class Withdraw extends JFrame {
                             if (accounts.get(i).withdraw(getCurrency(), getWithdraw())) {
                                 FileHandler.updateAccount(accounts.get(i));
                                 JOptionPane.showMessageDialog(WithdrawPanel, "Amount Withdrawn!");
+                                new Transaction(accounts.get(i), accounts.get(i),0-getWithdraw(), getCurrency(), getCurrency());
                                 dispose();
                             }else {
                                 JOptionPane.showMessageDialog(WithdrawPanel, "Not enough balance");
                             }
                         }
                     }
-//                    TODO
-//                    get list of accounts
-//                    new account, make it = accounts in list(below)
-//                    for(Account account: accounts){
-//                        if( need to compare accounts Id with checking.getSelectedItem().toString())){
-//                            if( accounts deposit amount < getWithdraw()){
-//                                JOptionPane.showMessageDialog(WithdrawPanel, "Not enough balance");
-//                            }
-//                            else {
-//                                update the account which can withdraw
-//                                save accounts info to CSV
-//                                JOptionPane.showMessageDialog(WithdrawPanel, "Amount Withdrawn!");
-//                                dispose();
-//                            }
-//                            break;
-//                        }
-//                    }
                 }
             }
         });

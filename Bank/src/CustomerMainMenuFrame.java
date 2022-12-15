@@ -102,28 +102,22 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
             new ViewCustomerAccountsFrame(customerID);
         }
         if (e.getSource() == checkTransactionButton) {
-//            TODO
-//            need to get all the transactions info fist
-//            new ViewTransactions(here need the transaction instance)
+            new ViewTransactionsInfo(this.user);
         }
         if (e.getSource() == createAccountButton) {
             new CreateAccountFrame(this.user);
         }
         if (e.getSource() == closeAccountButton) {
-//            TODO factory account id needs to be unique
             new CloseAccount(this.user);
         }
         if (e.getSource() == loanButton) {
 //            TODO
-//            new LoanFrame(user);
+            new LoanFrame(user);
         }
         if (e.getSource() == makeTransactionButton) {
-//            TODO
             new ChooseTransactions(user);
         }
         if(e.getSource() == stockButton){
-//            TODO
-//            need to get the stock -info from the csv first
             new StockGUI(user.getUserId());
         }
         if (e.getSource() == logoutButton) {
@@ -133,13 +127,13 @@ public class CustomerMainMenuFrame extends JFrame implements ActionListener {
     }
 
 //Preview
-    public static void main(String[] args){
-        CustomerMainMenuFrame frame=new CustomerMainMenuFrame("1");
-        frame.setTitle("Customer Main Menu");
-        frame.setLocation(10,10);
-        frame.setSize(1000,800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args){
+//        CustomerMainMenuFrame frame=new CustomerMainMenuFrame("1");
+//        frame.setTitle("Customer Main Menu");
+//        frame.setLocation(10,10);
+//        frame.setSize(1000,800);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+//    }
 
 }

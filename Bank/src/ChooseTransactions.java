@@ -20,7 +20,6 @@ public class ChooseTransactions extends JFrame {
         setVisible(true);
 
         depositButton.addActionListener(new ActionListener() {
-            //Todo
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Deposit(user);
@@ -28,7 +27,6 @@ public class ChooseTransactions extends JFrame {
         });
 
         withdrawButton.addActionListener(new ActionListener() {
-            //Todo
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Withdraw(user);
@@ -36,7 +34,6 @@ public class ChooseTransactions extends JFrame {
         });
 
         transferButton.addActionListener(new ActionListener() {
-            //Todo
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Transfer(user);
@@ -44,7 +41,6 @@ public class ChooseTransactions extends JFrame {
         });
 
         payOrTransactionsButton.addActionListener(new ActionListener() {
-            //Todo
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Pay(user);

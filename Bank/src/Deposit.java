@@ -78,6 +78,7 @@ public class Deposit extends JFrame {
                         if (accounts.get(i).getAccountId() == accountId) {
                             accounts.get(i).deposit(getCurrency(), getDeposit());
                             FileHandler.updateAccount(accounts.get(i));
+                            new Transaction(accounts.get(i), accounts.get(i),getDeposit(), getCurrency(), getCurrency());
                             JOptionPane.showMessageDialog(DepositPanel, "" + getDeposit() + getCurrency() + " deposited!");
                             dispose();
                         }

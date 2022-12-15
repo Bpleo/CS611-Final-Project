@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.HashMap;
 import java.util.Scanner;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -13,11 +15,33 @@ public class FileHandler {
     private static ArrayList<LoanAccount> loanAccountList = new ArrayList<>();
     private static ArrayList<SecurityAccount> securityAccountList = new ArrayList<>();
     private static ArrayList<User> userList = new ArrayList<>();
+
     //If run in terminal, change the front . to ..
     private static final String dirPath = "." + File.separator + "csvFile" + File.separator;
     public static void addUser(User user){
         userList.add(user);
         writeCustomer();
+    }
+
+    public static HashMap<LocalDate, ArrayList<Transaction>> getTransactionByCustomer(ArrayList<Account> accounts){
+        HashMap<LocalDate, ArrayList<Transaction>> result = new HashMap<>();
+        ArrayList<Transaction> transactions = null;
+        for (int i = 0; i < accounts.size(); i++){
+            Account tempA = accounts.get(i);
+            for(LocalDate d : Report.transactionList.keySet()){
+                if (!result.containsKey(d)) {
+                    transactions = new ArrayList<>();
+                }
+                    ArrayList<Transaction> tempArrayList = Report.transactionList.get(d);
+                    for (int j = 0; j < tempArrayList.size(); j++){
+                        Account sender = tempArrayList.get(j).getSenderAccount();
+                        if (sender.getAccountId() == tempA.getAccountId() && sender.getType() == tempA.getType())
+                            transactions.add(tempArrayList.get(j));
+                    }
+                    result.put(d,transactions);
+                }
+            }
+        return result;
     }
 
     public static User checkUser(String userName){
@@ -32,6 +56,33 @@ public class FileHandler {
             if (userList.get(i).getUserId() == userId)
                 return userList.get(i);
         return null;
+    }
+
+    public static Account checkAccount(Long accountId, AccountType type){
+        Account result = null;
+        switch (type){
+            case LOAN:
+                for (int i = 0; i < loanAccountList.size(); i++)
+                    if (loanAccountList.get(i).getAccountId() == accountId)
+                        result = loanAccountList.get(i);
+                break;
+            case SAVING:
+                for (int i = 0; i < savingAccountList.size(); i++)
+                    if (savingAccountList.get(i).getAccountId() == accountId)
+                        result = savingAccountList.get(i);
+                break;
+            case CHECKING:
+                for (int i = 0; i < checkingAccountList.size(); i++)
+                    if (checkingAccountList.get(i).getAccountId() == accountId)
+                        result = checkingAccountList.get(i);
+                break;
+            case SECURITY:
+                for (int i = 0; i < securityAccountList.size(); i++)
+                    if (securityAccountList.get(i).getAccountId() == accountId)
+                        result = securityAccountList.get(i);
+                break;
+        }
+        return result;
     }
 
     public static void updateAccount(Account account) {
@@ -149,6 +200,33 @@ public class FileHandler {
         readStockMarket();
         readSecurity();
         readCustomer();
+        readTransaction();
+    }
+
+    private static void readTransaction() {
+        try{
+            new Report();
+            Scanner in = new Scanner(new File(dirPath + "transaction.csv"));
+            while (in.hasNext()){
+                String[] info = in.nextLine().split(",");
+                //Get attribute;
+                LocalDate date = LocalDate.parse(info[0]);
+                Long sendAccountId = Long.parseLong(info[1]);
+                AccountType sendAccountType = AccountType.valueOf(info[2]);
+                double sendAmount = Double.parseDouble(info[3]);
+                CurrencyType sendType = CurrencyType.valueOf(info[4]);
+                Long recvAccountId = Long.parseLong(info[5]);
+                AccountType recvAccountType = AccountType.valueOf(info[6]);
+                CurrencyType recvType = CurrencyType.valueOf(info[7]);
+                //Get account
+                Account senderAccount = checkAccount(sendAccountId,sendAccountType);
+                Account reciverAccount = checkAccount(recvAccountId, recvAccountType);
+                Transaction temp = new Transaction(senderAccount, reciverAccount, sendAmount, sendType, recvType, date);
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void readChecking(){
@@ -326,6 +404,30 @@ public class FileHandler {
         writeLoan();
         writeStockMarket();
         writeSecurity();
+        writeTransaction();
+    }
+
+    public static void writeTransaction() {
+        try{
+            File temp = new File(dirPath + "transaction.csv");
+            if (!temp.exists())
+                temp.createNewFile();
+            PrintWriter out = new PrintWriter(temp);
+            for (LocalDate date : Report.transactionList.keySet()) {
+                ArrayList<Transaction> transactions = Report.transactionList.get(date);
+                for (int i = 0; i < transactions.size(); i++){
+                    Transaction tempT = transactions.get(i);
+                    out.print(date + "," + tempT.getSenderAccount().getAccountId() + "," + tempT.getSenderAccount().getType());
+                    out.print("," + tempT.getSendAmount() + "," + tempT.getSendType());
+                    out.print("," + tempT.getReceiverAccount().getAccountId() + "," + tempT.getReceiverAccount().getType() + "," + tempT.getRecvType());
+                    out.println();
+                }
+            }
+            out.close();
+        }catch (IOException e){
+            System.out.println("Error Occurred");
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void writeCustomer() {

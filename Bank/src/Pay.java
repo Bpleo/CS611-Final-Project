@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,28 +18,42 @@ public class Pay extends JFrame {
     private JComboBox receiverCurrencyType;
     private JComboBox senderCurrencyType;
 
-    private int getReceiver(){
-        return Integer.valueOf(receiver.getText());
+    private long getReceiver(){
+        return Long.parseLong(receiver.getText());
     }
-    private double getamount(){
+    private double getAmount(){
         return Double.parseDouble(amount.getText());
     }
 
-    public Pay(Customer user){
+    private CurrencyType getCurrency(JComboBox<CurrencyType> currencyType){
+        CurrencyType currency;
+        if(currencyType.getSelectedItem() == CurrencyType.USD){
+            currency = CurrencyType.USD;
+        }else if(currencyType.getSelectedItem() == CurrencyType.CNY){
+            currency = CurrencyType.CNY;
+        }else if(currencyType.getSelectedItem() == CurrencyType.INR){
+            currency = CurrencyType.INR;
+        }else
+            currency = CurrencyType.GBP;
+        return currency;
 
+    }
+
+    public Pay(Customer user){
         setContentPane(PayPanel);
         setTitle("View Accounts Form");
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
-//        TODO
-//        get list of user accounts through userid
-//        new account, make it = accounts in list
-//        for(Account account : accounts){
-//            if(account.getType()== AccountType.CHECKING || account.getType()== AccountType.SAVING){
-//                accountsList.addItem( here need to get account id to string);
-//            }
-//        }
+        ArrayList<Account> accounts = user.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getType() == AccountType.CHECKING || accounts.get(i).getType() == AccountType.SAVING)
+                accountsList.addItem(accounts.get(i).getAccountId() + " " + accounts.get(i).getType());
+        }
+        for (CurrencyType c : CurrencyType.values()) {
+            senderCurrencyType.addItem(c);
+            receiverCurrencyType.addItem(c);
+        }
         amount.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -74,35 +89,40 @@ public class Pay extends JFrame {
         payButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(receiver.getText().isEmpty()){
+                try {
+                    if (receiver.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(PayPanel, "Please enter the receiver ID");
+                    } else if (amount.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(PayPanel, "Please enter the deposit amount");
+                    }
+                    else{
+                        long receiverId = getReceiver();
+                        Account recvAccount = null;
+                        for (AccountType a : AccountType.values()){
+                            recvAccount = FileHandler.checkAccount(receiverId,a);
+                            if (recvAccount != null)
+                                break;
+                        }
+                        if (recvAccount == null){
+                            JOptionPane.showMessageDialog(PayPanel, "Receiver Account Not Found. Please enter the receiver ID");
+                        }else {
+                            long sendId = Long.parseLong(accountsList.getSelectedItem().toString().split(" ")[0]);
+                            AccountType sendType = AccountType.valueOf(accountsList.getSelectedItem().toString().split(" ")[1]);
+                            Account sendAccount = FileHandler.checkAccount(sendId, sendType);
+                            if (sendAccount.withdraw(getCurrency(senderCurrencyType), getAmount())) {
+                                recvAccount.deposit(getCurrency(receiverCurrencyType), Exchange.exchangeCurrency(getCurrency(senderCurrencyType), getCurrency(receiverCurrencyType), getAmount()));
+                                FileHandler.updateAccount(sendAccount);
+                                FileHandler.updateAccount(recvAccount);
+                                new Transaction(sendAccount, recvAccount, getAmount(), getCurrency(senderCurrencyType), getCurrency(receiverCurrencyType));
+                                JOptionPane.showMessageDialog(PayPanel, "Amount transferred!");
+                                dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(PayPanel, "Not enough balance");
+                            }
+                        }
+                        }
+                }catch (Exception ex){
                     JOptionPane.showMessageDialog(PayPanel, "Please enter the receiver ID");
-                }
-                else if(amount.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(PayPanel, "Please enter the deposit amount");
-                }
-//                TODO
-//                else if(Integer.parseInt(receiver.getText().toString()) > here need the size of accounts, like the amount of the accouts || Integer.parseInt(receiver.getText().toString()) <= 1){
-//                    JOptionPane.showMessageDialog(PayPanel, "User index out of range");
-//                }
-                else {
-//                    TODO
-//                    get list of accounts
-//                    new account, make it = accounts in list(below)
-//                    for (Account account : accounts) {
-//                        if ( need to compare the account Id with: accountsList.getSelectedItem().toString())) {
-//                            if( need to check whether the account could transfer money, and here need the parameters:getReceiver(), getamount()) {
-//                                save accounts info to CSV
-//                                save transactions info to CSV
-//                                JOptionPane.showMessageDialog(PayPanel, "Amount paid!");
-//                                break;
-//                            }
-//                            else{
-//                                JOptionPane.showMessageDialog(PayPanel, "The receiver does not have a checking account!");
-//                                break;
-//                            }
-//                        }
-//                    }
-                    dispose();
                 }
             }
         });

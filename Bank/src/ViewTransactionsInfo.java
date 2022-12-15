@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ViewTransactionsInfo extends JFrame {
@@ -16,30 +19,30 @@ public class ViewTransactionsInfo extends JFrame {
     private JLabel userIdLabel;
     private JTextArea userIdField;
 
-//    TODO
-//    public ViewTransactionsInfo( here need to add list of transaction){
-//        setTitle("TransactionsInfo");
-//        setContentPane(transactionPanel);
-//        setResizable(true);
-//        setVisible(true);
-//        setSize(1000, 800);
-//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        transactionPanel.setAutoscrolls(true);
-//
-//        for (Transaction aname : bname ) {
-//            System.out.println(transaction);//test
-//            userIdField.append( here need func(need to get this transaction's user Id) + "\n\n");
-//            memoField.append( here need func(need to get this transaction's logs) + "\n\n");
-//            amountField.append("" + here need func(need to get this transaction's total amount) + "\n\n");
-//            dateField.append("" + here need func(need to get this transaction's openDate) + "\n\n");
-//        }
-//
-//        backButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                dispose();
-//            }
-//        });
-//    }
+    public ViewTransactionsInfo(Customer customer){
+        setTitle("TransactionsInfo");
+        setContentPane(transactionPanel);
+        setResizable(true);
+        setVisible(true);
+        setSize(1000, 800);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        transactionPanel.setAutoscrolls(true);
+        HashMap<LocalDate, ArrayList<Transaction>> transactions = FileHandler.getTransactionByCustomer(customer.getAccounts());
+        for (LocalDate d : transactions.keySet()){
+            ArrayList<Transaction> tempT = transactions.get(d);
+            for (Transaction t : tempT){
+                userIdField.append(t.getReceiverAccount().getAccountId() + "\n\n");
+                amountField.append(t.getSendAmount() + "\n\n");
+                memoField.append("Send " + t.getSendType() + " Recv "+ t.getRecvType() + "\n\n");
+                dateField.append(d + "\n\n");
+            }
+        }
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+    }
 
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Report {
-    private static HashMap<LocalDate, ArrayList<Transaction>> transactionList;
+    public static HashMap<LocalDate, ArrayList<Transaction>> transactionList;
 
     public Report(){
         transactionList = new HashMap<>();
@@ -20,6 +20,7 @@ public class Report {
             temp.add(transaction);
             transactionList.put(date, temp);
         }
+        FileHandler.writeTransaction();
     }
 
     public static void addTransaction(Transaction transaction){

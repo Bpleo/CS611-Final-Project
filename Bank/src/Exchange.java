@@ -26,6 +26,8 @@ public class Exchange {
                 return exchangeUSDTo(CurrencyType.INR, exchangeCNYTo(CurrencyType.USD, exchangeAmount));
             case GBP:
                 return exchangeUSDTo(CurrencyType.GBP, exchangeCNYTo(CurrencyType.USD, exchangeAmount));
+            case CNY:
+                return exchangeAmount;
             default:
                 return 0;
         }
@@ -39,6 +41,8 @@ public class Exchange {
                 return exchangeUSDTo(CurrencyType.INR, exchangeCNYTo(CurrencyType.USD, exchangeAmount));
             case CNY:
                 return exchangeUSDTo(CurrencyType.CNY, exchangeCNYTo(CurrencyType.USD, exchangeAmount));
+            case GBP:
+                return exchangeAmount;
             default:
                 return 0;
         }
@@ -52,6 +56,8 @@ public class Exchange {
                 return exchangeUSDTo(CurrencyType.CNY, exchangeCNYTo(CurrencyType.USD, exchangeAmount));
             case GBP:
                 return exchangeUSDTo(CurrencyType.GBP, exchangeCNYTo(CurrencyType.USD, exchangeAmount));
+            case INR:
+                return exchangeAmount;
             default:
                 return 0;
         }
@@ -65,6 +71,8 @@ public class Exchange {
                 return exchangeAmount / INR_TO_USD_RATE;
             case GBP:
                 return exchangeAmount / GBP_TO_USD_RATE;
+            case USD:
+                return exchangeAmount;
             default:
                 return 0;
         }

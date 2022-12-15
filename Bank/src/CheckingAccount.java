@@ -32,8 +32,12 @@ public class CheckingAccount extends Account{
     public boolean withdraw(CurrencyType currency, double amount) {
         if (currency == CurrencyType.USD){
             if (deposit.containsKey(CurrencyType.USD)){
-                deposit.put(currency, deposit.get(currency) - amount);
-                return true;
+                if (deposit.get(currency) < amount)
+                    return false;
+                else {
+                    deposit.put(currency, deposit.get(currency) - amount);
+                    return true;
+                }
             } else {
                 CurrencyType temp = deposit.keySet().stream().findFirst().get();
                 double usdEquiAmount = Exchange.exchangeCurrency(CurrencyType.USD, temp, amount);
