@@ -8,30 +8,6 @@ public class BankManager extends User{
         profit = 0;
     }
 
-    public void checkCustomer(int customerId) {
-
-    }
-
-    public void getReport() {
-
-    }
-
-    public void chargeFee() {
-
-    }
-
-    public void paySavingInterest() {
-
-    }
-
-    public void lendLoan() {
-
-    }
-
-    public void AllowStockTrading() {
-
-    }
-
     public String getName() {
         return managerName;
     }

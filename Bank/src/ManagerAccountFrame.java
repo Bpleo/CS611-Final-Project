@@ -71,8 +71,6 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         interestButton.addActionListener(this);
         logoutButton.addActionListener(this);
     }
-
-    //TODO
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == profileButton) {

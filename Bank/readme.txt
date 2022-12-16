@@ -53,7 +53,6 @@ LoanRequestFrame.form - form used to make a loan request
 LoanRequestFrame.java - class that extends JFrame that is used to make loan request
 LoginFrame.form - form for loggin in
 LoginFrame.java - class that extends JFrame for logging in
-main.java - main starter
 ManagerAccountFrame.form - form for manager account
 ManagerAccountFrame.java - class that extends JFrame used by the manager account
 ManageStock.form - form that is used for managing stock
@@ -92,4 +91,7 @@ Withdraw.java - class that extends JFrame that is used for withrawing stuff
 ---------------------------------------------------------------------------
 
 How To Compile
-
+After unzip the Bank.zip, navigate to src directory
+Run the following command line
+1.javac WelcomeFrame.java
+2.java WelcomeFrame
