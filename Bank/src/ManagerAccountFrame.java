@@ -93,7 +93,6 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         if (e.getSource() == viewProfitButton) {
 //            TODO
 //            JOptionPane.showMessageDialog(this, "Total Profit: " + here need to get profit);
-
         }
         if (e.getSource() == stocksButton) {
 //            TODO

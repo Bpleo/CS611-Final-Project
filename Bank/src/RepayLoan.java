@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RepayLoan extends JFrame {
@@ -19,7 +20,7 @@ public class RepayLoan extends JFrame {
     private JLabel paymentLabel;
     private JPanel repayLoanPanel;
 
-    public RepayLoan(int userID) {
+    public RepayLoan(Customer customer) {
         setTitle("Repay Loan");
         setContentPane(repayLoanPanel);
         setResizable(true);
@@ -40,12 +41,15 @@ public class RepayLoan extends JFrame {
                 super.keyTyped(e);
             }
         });
-
-//        TODO
-//        here need to get loan's accounts info
-//        for(new loan, make it = loans' accounts info){
-//            comboBoxLoanAccount.addItem( here need to get loan id, id is toString());
-//        }
+        ArrayList<Account> accounts = customer.getAccounts();
+        for (int i = 0; i < accounts.size(); i++){
+            if (accounts.get(i).getType() == AccountType.LOAN)
+                comboBoxLoanAccount.addItem(accounts.get(i).getAccountId());
+        }
+        comboBoxLoanAccount.setSelectedIndex(0);
+        Long accountId = Long.parseLong(comboBoxLoanAccount.getSelectedItem().toString());
+        LoanAccount selectedAccount;
+        dueAmt.setText(((LoanAccount)FileHandler.checkAccount(accountId,AccountType.LOAN)).getLoanAmount() + "");
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -54,21 +58,16 @@ public class RepayLoan extends JFrame {
             }
         });
 
-//        TODO
-//        here need to get loan from ID, need to use func(comboBoxLoanAccount.getSelectedItem().toString())
-//        get due amount = (1 + (loan's interest / 100)) * loan.getLoanAmount().getAmount();
-//        dueAmt.setText(dueAmount.toString());
-//        need to get loan's id
-//        comboBoxLoanAccount.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Updating due amount based on selected account
-//                here need to get loan from ID, need to use func(comboBoxLoanAccount.getSelectedItem().toString())
-//                get due amount = (1 + (loan's getInterest() / 100)) * loan's amount
-//                dueAmt.setText(dueAmount.toString());
-//                need to get loan's id
-//            }
-//        });
+
+        comboBoxLoanAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Long accountId = Long.parseLong(comboBoxLoanAccount.getSelectedItem().toString());
+                LoanAccount selectedAccount = (LoanAccount)FileHandler.checkAccount(accountId,AccountType.LOAN);
+                System.out.println(accountId);
+                dueAmt.setText(selectedAccount.getLoanAmount() + "");
+            }
+        });
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -82,56 +81,48 @@ public class RepayLoan extends JFrame {
             public void actionPerformed(ActionEvent e) {
 //                TODO
 //                here need to get list of user accounts through userID
+                ArrayList<CheckingAccount> checkingAccounts = new ArrayList<>();
+                Long accountId = Long.parseLong(comboBoxLoanAccount.getSelectedItem().toString());
+                LoanAccount selectedAccount = null;
+                for (int i = 0; i < accounts.size(); i++){
+                    if (accounts.get(i).getType() == AccountType.CHECKING)
+                        checkingAccounts.add((CheckingAccount) accounts.get(i));
+                }
+                for (int i = 0; i < customer.getAccounts().size();i++){
+                    if (customer.getAccounts().get(i).getAccountId() == accountId && customer.getAccounts().get(i).getType() == AccountType.LOAN)
+                        selectedAccount = (LoanAccount) customer.getAccounts().get(i);
+                }
                 String pay = payment.getText();
                 if(pay.isEmpty()){
                     JOptionPane.showMessageDialog(repayLoanPanel, "Please enter payment amount");
-                }
-//                TODO
-//                else if(check accounts isEmpty){
-//                    JOptionPane.showMessageDialog(repayLoanPanel, "Please create a checking account to make the payment");
-//                    dispose();
-//                }
-                else{
-                    Account curAccount = null;
-//                    TODO
-//                    new account , make it = accounts list(below)
-//                    for(Account account: accounts list name ){
-//                        if(account.getType() == AccountType.CHECKING) {
-//                            curAccount = account;
-//                            break;
-//                        }
-//                    }
+                }else if (checkingAccounts.size() == 0) {
+                    JOptionPane.showMessageDialog(repayLoanPanel, "Please create a checking account to make the payment");
+                    dispose();
+                }else{
+                    CheckingAccount curAccount = null;
+                    for (int i = 0; i < checkingAccounts.size(); i++) {
+                        if (checkingAccounts.get(i).withdraw(selectedAccount.getLoanType(),0))
+                            curAccount = checkingAccounts.get(i);
+                    }
                     if(curAccount == null) {
                         JOptionPane.showMessageDialog(repayLoanPanel, "Please create a checking account to make the payment");
                         dispose();
                     }
 //                    TODO
-//                    else if(Double.parseDouble(pay) > curAccounts deposit amount){
-//                        JOptionPane.showMessageDialog(repayLoanPanel, "You don't have enough balance");
-//                    }
-                    else if(Double.parseDouble(pay) > Double.parseDouble(dueAmt.getText())){
+                    else if(Double.parseDouble(pay) > curAccount.getDeposit(selectedAccount.getLoanType())){
+                        JOptionPane.showMessageDialog(repayLoanPanel, "You don't have enough balance");
+                    }
+                    else if(Double.parseDouble(pay) > selectedAccount.getLoanAmount()){
                         JOptionPane.showMessageDialog(repayLoanPanel, "Please enter an amount less than the due amount");
                     }
                     else {
-//                    TODO
-//                    here need to get list of loans accounts
-//                        new loan, make it = loans list(below)
-//                        for (Loan loan : loans list){
-//                            if (list of loans ID = this Id() ){
-//                                amt = get loan 's amount - pay;   pay:Double.parseDouble(pay) from the gui' s text
-//                                if (amt <= 0) {
-//                                    remove loans
-//                                    JOptionPane.showMessageDialog(repayLoanPanel, "Loan Cleared");
-//                                } else
-//                                    set loan 's new amount;
-//                                break;
-//                            }
-//                        }
-//                        TODO
-//                        resetting accounts and loans with updated amounts
-//                        reset current deposit = curAccount - pay
-//                        save loan 's account to CSV
-//                        save accounts info to CSV
+                        double payLoan = Double.parseDouble(pay);
+                        CurrencyType loanType = selectedAccount.getLoanType();
+                        curAccount.withdraw(selectedAccount.getLoanType(),payLoan);
+                        selectedAccount.deposit(selectedAccount.getLoanType(),payLoan);
+                        FileHandler.updateAccount(curAccount);
+                        FileHandler.updateAccount(selectedAccount);
+                        new Transaction(curAccount,selectedAccount,payLoan,loanType,loanType);
                         JOptionPane.showMessageDialog(repayLoanPanel, "Payment successful");
                         dispose();
                     }

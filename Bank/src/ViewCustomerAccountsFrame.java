@@ -84,14 +84,16 @@ public class ViewCustomerAccountsFrame extends JFrame {
 
     private void loanBalance(LoanAccount account){
         double deposit = account.getLoanAmount();
-        String type = account.getLoanType().toString();
-        balanceField.append(deposit+" Paid by " +account.getPaidDate() +"\n\n");
-        currencyField.append(type+"\n\n");
+        if (account.getLoanDate() != null) {
+            String type = account.getLoanType().toString();
+            balanceField.append(deposit + " Paid by " + account.getPaidDate() + "\n\n\n\n");
+            currencyField.append(type + "\n\n\n\n");
+        }
     }
 
     private void stockBalance(SecurityAccount account){
-        balanceField.append(account.getStockBalance() + "\n\n");
-        currencyField.append(CurrencyType.USD + "\n\n");
+        balanceField.append(account.getStockBalance() + "\n\n\n\n");
+        currencyField.append(CurrencyType.USD + "\n\n\n\n");
     }
 
 //Preview

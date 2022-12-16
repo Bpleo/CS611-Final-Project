@@ -266,6 +266,7 @@ public class FileHandler {
                         LocalDate depositDate = LocalDate.parse(info[i + 2]);
                         SavingDeposit tempSd = new SavingDeposit(depositDate, amount);
                         tempS.deposit(tempC, tempSd);
+                        tempS.interestIncrease(LocalDate.now());
                     }
                 }
                 savingAccountList.add(tempS);
@@ -285,13 +286,16 @@ public class FileHandler {
                 int cId = Integer.parseInt(info[0]);
                 long aId = Long.parseLong(info[1]);
                 LoanAccount tempL = new LoanAccount(aId,cId);
-                //Fill in attribute
-                double rate = Double.parseDouble(info[2]);
-                double amount = Double.parseDouble(info[3]);
-                CurrencyType type = CurrencyType.valueOf(info[4]);
-                LocalDate loanDate = LocalDate.parse(info[5]);
-                LocalDate paidDate = LocalDate.parse(info[6]);
-                tempL.requestLoan(amount,type,rate,DAYS.between(loanDate,paidDate),loanDate);
+                if (!info[2].equals("0.0")) {
+                    //Fill in attribute
+                    double rate = Double.parseDouble(info[2]);
+                    double amount = Double.parseDouble(info[3]);
+                    CurrencyType type = CurrencyType.valueOf(info[4]);
+                    LocalDate loanDate = LocalDate.parse(info[5]);
+                    LocalDate paidDate = LocalDate.parse(info[6]);
+                    tempL.requestLoan(amount, type, rate, DAYS.between(loanDate, paidDate), loanDate);
+                    tempL.increaseLoan(LocalDate.now());
+                }
                 //Add to list
                 loanAccountList.add(tempL);
             }

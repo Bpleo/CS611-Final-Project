@@ -34,9 +34,10 @@ public class LoanFrame extends JFrame {
         });
 
         checkCurrentLoansButton.addActionListener(new ActionListener() {
+            //TODO
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CurrentLoansFrame(user.getUserId());
+                new CurrentLoansFrame(user);
             }
         });
     }

@@ -54,7 +54,13 @@ public class LoanAccount extends Account{
         }else{
             loanAmount -= amount;
         }
-
+        if (loanAmount <= 0) {
+            this.loanAmount = 0;
+            this.loanInterest = 0;
+            this.loanDate = null;
+            this.loanType = null;
+            this.paidDate = null;
+        }
     }
 
     public double getLoanAmount() {

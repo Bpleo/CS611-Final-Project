@@ -25,7 +25,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Loan Amount"/>
+          <text value="Amount Due"/>
         </properties>
       </component>
       <component id="fca84" class="javax.swing.JLabel" binding="collateralField">
@@ -35,7 +35,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Collateral"/>
+          <text value="Paid Date"/>
         </properties>
       </component>
       <component id="9c058" class="javax.swing.JLabel" binding="roiField">
