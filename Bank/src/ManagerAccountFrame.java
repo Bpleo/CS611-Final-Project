@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class ManagerAccountFrame extends JFrame implements ActionListener {
     private final Container container;
@@ -10,7 +11,6 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
     private final JButton checkCustomerInfoButton;
     private final JButton viewTransactionButton;
     private final JButton profileButton;
-    private final JButton viewProfitButton;
     private final JButton interestButton;
     private final JButton stocksButton;
     private final JButton logoutButton;
@@ -27,7 +27,6 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         checkCustomerInfoButton = new JButton("Check customer accounts");
         viewTransactionButton = new JButton("View transactions");
         profileButton = new JButton("Profile");
-        viewProfitButton = new JButton("View profit");
         stocksButton = new JButton("Manage stocks");
         interestButton = new JButton("Set Interest Rate");
         logoutButton = new JButton("Logout");
@@ -48,10 +47,9 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         profileButton.setBounds(300, 250, 400, 40);
         checkCustomerInfoButton.setBounds(300, 300, 400, 40);
         viewTransactionButton.setBounds(300, 350, 400, 40);
-        viewProfitButton.setBounds(300, 400, 400, 40);
-        stocksButton.setBounds(300, 450, 400, 40);
-        interestButton.setBounds(300, 500, 400, 40);
-        logoutButton.setBounds(700, 600, 100, 35);
+        stocksButton.setBounds(300, 400, 400, 40);
+        interestButton.setBounds(300, 450, 400, 40);
+        logoutButton.setBounds(700, 500, 100, 35);
 
     }
 
@@ -60,7 +58,6 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         container.add(profileButton);
         container.add(checkCustomerInfoButton);
         container.add(viewTransactionButton);
-        container.add(viewProfitButton);
         container.add(stocksButton);
         container.add(interestButton);
         container.add(logoutButton);
@@ -70,7 +67,6 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         profileButton.addActionListener(this);
         checkCustomerInfoButton.addActionListener(this);
         viewTransactionButton.addActionListener(this);
-        viewProfitButton.addActionListener(this);
         stocksButton.addActionListener(this);
         interestButton.addActionListener(this);
         logoutButton.addActionListener(this);
@@ -88,14 +84,9 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
         if (e.getSource() == viewTransactionButton) {
 //            TODO
 //            get all the transactions info
-//            new ViewDailyTransactions( transactions );
-        }
-        if (e.getSource() == viewProfitButton) {
-//            TODO
-//            JOptionPane.showMessageDialog(this, "Total Profit: " + here need to get profit);
+            new ViewDailyTransactions(LocalDate.now());
         }
         if (e.getSource() == stocksButton) {
-//            TODO
 //            get the stock info from the csv
             new ManageStock();
         }
@@ -108,14 +99,14 @@ public class ManagerAccountFrame extends JFrame implements ActionListener {
     }
 
     //Preview
-    public static void main(String[] args){
-        ManagerAccountFrame frame=new ManagerAccountFrame("1");
-        frame.setTitle("Manager Account");
-        frame.setLocation(10,10);
-        frame.setSize(1000,800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args){
+//        ManagerAccountFrame frame=new ManagerAccountFrame("1");
+//        frame.setTitle("Manager Account");
+//        frame.setLocation(10,10);
+//        frame.setSize(1000,800);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+//    }
 
 
 }

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerList extends JFrame {
@@ -17,14 +18,11 @@ public class CustomerList extends JFrame {
         setSize(1000, 800);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-//        TODO
-//        get the user info
-//        for(new user, make it = user in the list){
-//            if( need to compare the user type with the type MANAGER)
-//                continue;
-//            comboBoxUserId.addItem( here need the user id );
-//        }
+        ArrayList<User> users = FileHandler.getUserList();
+        for (int i = 0; i < users.size(); i++){
+            if (users.get(i).getUserType().equals("C"))
+                comboBoxUserId.addItem(users.get(i).getUserId());
+        }
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -42,10 +40,10 @@ public class CustomerList extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
-        CustomerList c = new CustomerList();
-        //Account.Account.AccountType t = (Account.AccountType) c.comboBoxAccountType.getSelectedItem();
-
-    }
+//    public static void main(String[] args) {
+//        CustomerList c = new CustomerList();
+//        //Account.Account.AccountType t = (Account.AccountType) c.comboBoxAccountType.getSelectedItem();
+//
+//    }
 
 }

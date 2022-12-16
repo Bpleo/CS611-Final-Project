@@ -1,4 +1,8 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ViewDailyTransactions extends JFrame {
 
@@ -15,30 +19,28 @@ public class ViewDailyTransactions extends JFrame {
     private JLabel memoLabel;
 
 //    TODO
-//    public ViewDailyTransactions( here need to add list of daily transaction){
-//        setTitle("DailyTransactionsInfo");
-//        setContentPane(transactionPanel);
-//        setResizable(true);
-//        setVisible(true);
-//        setSize(1000, 800);
-//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        dailyTransactionPanel.setAutoscrolls(true);
-//
-//        new Transaction, make it = transactions in the list(below)
-//        for (Transaction aname : bname ) {
-//            senderIdField.append( here need func(need to get this transaction's sender Id) + "\n\n");
-//            receiverIdField.append("" + here need func(need to get this transaction's receiver) + "\n\n");
-//            memoField.append( here need func(need to get this transaction's logs) + "\n\n");
-//            amountField.append("" + here need func(need to get this transaction's total amount) + "\n\n");
+    public ViewDailyTransactions(LocalDate date){
+        setTitle("DailyTransactionsInfo");
+        setContentPane(dailyTransactionPanel);
+        setResizable(true);
+        setVisible(true);
+        setSize(1000, 800);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        dailyTransactionPanel.setAutoscrolls(true);
+        ArrayList<Transaction> transactions = Report.transactionList.get(date);
+        for (Transaction t : transactions){
+            senderIdField.append(t.getSenderAccount().getAccountId() + "\n\n");
+            receiverIdField.append(t.getReceiverAccount().getAccountId() + "\n\n");
+            memoField.append("Send " + t.getSendType() + " Receive " + t.getRecvType() + "\n\n");
+            amountField.append(t.getSendAmount() + "\n\n");
+        }
 
-//        }
-//
-//        backButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                dispose();
-//            }
-//        });
-//    }
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+    }
 
 }

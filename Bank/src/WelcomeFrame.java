@@ -58,7 +58,7 @@ public class WelcomeFrame extends JFrame implements ActionListener {
     public static void main(String[] args){
         FileHandler.readFiles();
         if (FileHandler.checkUser("Test") == null)
-            FileHandler.addUser(new BankManager("Test","test",0));
+            FileHandler.addUser(new BankManager("Test","test",-1));
         FileHandler.writeFiles();
         WelcomeFrame frame=new WelcomeFrame();
         frame.setTitle("Welcome");
