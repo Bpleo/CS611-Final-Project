@@ -221,7 +221,11 @@ public class FileHandler {
                 //Get account
                 Account senderAccount = checkAccount(sendAccountId,sendAccountType);
                 Account reciverAccount = checkAccount(recvAccountId, recvAccountType);
-                Transaction temp = new Transaction(senderAccount, reciverAccount, sendAmount, sendType, recvType, date);
+                if (senderAccount == null)
+                    senderAccount = AccountFactory.createAccount(sendAccountType,CurrencyType.USD,0);//Create dummy account to hold info
+                if (reciverAccount == null)
+                    reciverAccount = AccountFactory.createAccount(recvAccountType,CurrencyType.USD,0);
+                new Transaction(senderAccount, reciverAccount, sendAmount, sendType, recvType, date);
             }
         }catch (FileNotFoundException e){
             System.out.println("Error Occurred");
