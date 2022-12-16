@@ -91,7 +91,10 @@ Withdraw.java - class that extends JFrame that is used for withrawing stuff
 ---------------------------------------------------------------------------
 
 How To Compile
-After unzip the Bank.zip, navigate to src directory
+
+#After unzip the Bank.zip, navigate to src directory
+（Will not get full functionality, recommend to run it in IntelliJ for full functions）
 Run the following command line
 1.javac -d bin WelcomeFrame.java
 2.java -cp bin WelcomeFrame
+#Run it in IntelliJ
